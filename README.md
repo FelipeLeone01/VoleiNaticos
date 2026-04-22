@@ -4,7 +4,7 @@ Plataforma web desenvolvida com o objetivo de centralizar conteúdos, interaçõ
 
 ---
 
-## 📌 Sobre o Projeto
+##  Sobre o Projeto
 
 O **Voleináticos** é um sistema web completo que integra funcionalidades de frontend e backend, com foco em:
 
@@ -17,23 +17,23 @@ O projeto foi desenvolvido como parte de um trabalho individual, com o objetivo 
 
 ---
 
-## 🚀 Funcionalidades
+##  Funcionalidades
 
-* 💬 **Sistema de comentários**
+*  **Sistema de comentários**
   Interação entre usuários em cada publicação
 
-* ❤️ **Curtidas**
+*  **Curtidas**
   Engajamento com os conteúdos
 
-* 📊 **Dashboard de desempenho**
+* **Dashboard de desempenho**
   Exibição de fundamentos do voleibol com dados e gráficos
 
-* 👤 **Cadastro de usuários**
+*  **Cadastro de usuários**
   Criação e gerenciamento de contas
 
 ---
 
-## 🛠️ Tecnologias Utilizadas
+##  Tecnologias Utilizadas
 
 ### Frontend
 
@@ -58,14 +58,14 @@ O projeto foi desenvolvido como parte de um trabalho individual, com o objetivo 
 ---
 
 
-## 📷 Créditos de Imagens
+##  Créditos de Imagens
 
 Vídeo da Página HOME - https://www.youtube.com/watch?v=QlmtvGgua9Y
 Imagem Favicon - https://www.pngarts.com/explore/41849
 
 ---
 
-## 📄 Licença
+##  Licença
 
 MIT License
 
@@ -91,7 +91,7 @@ SOFTWARE.
 
 ---
 
-## 👨‍💻 Autor
+##  Autor
 
 Desenvolvido por **Felipe Leone Gomes**
 
