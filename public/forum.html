@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fórum</title>
+    <link rel="stylesheet" href="cssHeader.css">
+    <link rel="icon" href="assets/favicon2.jpg">
+
+    <style>
+        body {
+            margin: 0; /* Remove margens padrão */
+            font-family: Arial;
+            background: linear-gradient(to bottom, #355391, #1e2f5c);
+            padding-top: 70px; /* Espaço para o header */
+
+            display: flex;
+            flex-direction: column; /* Organiza em coluna */
+            min-height: 100vh; /* Altura mínima da tela */
+        }
+
+        .conteudo-pagina {
+            flex: 1; /* Ocupa o espaço restante */
+            display: flex;
+            align-items: center; /* Centraliza verticalmente */
+
+        }
+
+        .forum {
+            width: 100%; /* Ocupa toda largura */
+            display: flex;
+            justify-content: center;
+        }
+
+        .forum-container {
+            width: 90%; /* Define largura */
+            display: flex; 
+            gap: 40px; /* Espaço entre elementos */
+            align-items: flex-start; /* Alinha no topo */
+            margin-top: 40px; /* Espaço acima */
+        } 
+
+
+        .criar-post {
+            width: 350px; /* Largura fixa */
+            background: rgba(0, 0, 0, 0.3); /* Fundo semi-transparente */
+            padding: 20px; 
+            border-radius: 15px; /* Bordas arredondadas */
+            color: white;
+
+            position: sticky; /* Fica fixo ao rolar */
+            top: 100px; /* Distância do topo */
+ 
+            box-sizing: border-box; /* Inclui padding na largura */
+
+        }
+
+        .criar-post textarea {
+            width: 100%;
+            height: 120px; /* Altura */
+            padding: 10px;
+            border-radius: 8px;
+            border: none; /* Remove borda */
+            margin-bottom: 10px; /* Espaço abaixo */
+
+            box-sizing: border-box;
+
+        }
+
+
+        .criar-post button {
+            width: 100%;
+            background-color: midnightblue;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 8px; 
+            cursor: pointer; /* Cursor de clique */
+        }
+
+
+        .feed {
+            flex: 1; /* Ocupa o restante da tela */
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 15px;
+
+            display: flex;
+            flex-direction: column; /* Organiza em coluna */
+        }
+
+
+        .feed h3 {
+            color: white;
+            margin-bottom: 15px;
+        }
+
+
+        .post {
+            background: white;
+            color: black;
+            padding: 15px;
+            border-radius: 12px;
+
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* Sombra */
+            border-left: 5px solid midnightblue; /* Destaque lateral */
+
+            animation: aparecer 0.3s ease; /* Animação */
+        }
+
+        .like-btn {
+            background: transparent; /* Sem fundo */
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            color: #e63946; /* Cor do coração */
+            transition: 0.2s;
+        }
+
+        .like-btn:hover {
+            transform: scale(1.2); /* Aumenta ao passar o mouse */
+        }
+
+        /* validar com o frizza */
+        @keyframes aparecer {
+            from {
+                opacity: 0;
+                transform: translateY(10px); /* Começa deslocado */
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0); /* Volta ao normal */
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>VoleiNáticos</h1>
+        <nav>
+            <a href="minhaHistória.html">Carreira<br>De um<br>Voleibolista</a>
+            <a href="index.html">Home</a>
+            <a href="noticias.html">Notícias</a>
+            <a href="forum.html">Fórum</a>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="login.html">Login</a>
+            <a href="cadastro.html">Cadastro</a>
+        </nav>
+    </header>
+
+    <div class="conteudo-pagina">
+
+        <section class="forum">
+
+            <div class="forum-container">
+
+                <!-- ESQUERDA -->
+                <div class="criar-post">
+                    <h2>🏐 Fórum VoleiNáticos</h2>
+                    <input id="input_titulo" placeholder="Título do post">
+                    <textarea id="input_post" placeholder="Compartilhe o seu pensamento..."></textarea>
+                    <button onclick="publicar()">Publicar</button>
+                </div>
+
+                <!-- DIREITA -->
+                <div class="feed">
+                    <h3>Feed</h3>
+                    <div id="lista_posts"></div>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <script>
+            if (!sessionStorage.ID_USUARIO) { // Verifica se o usuário está logado
+                alert("Você precisa estar logado!");
+                window.location = "login.html";
+            }
+
+            let posts = [];
+            const lista_posts = document.getElementById("lista_posts"); // Elemento da lista de posts
+            const input_post = document.getElementById("input_post");
+
+
+
+
+            function publicar() {
+                let titulo = document.getElementById("input_titulo").value;
+                let texto = input_post.value;
+                let idUsuario = sessionStorage.ID_USUARIO; // Pega ID do usuário
+
+                if (texto == "") return;
+
+                fetch("/publicar", { // Envia post para o servidor
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        titulo: titulo,
+                        conteudo: texto,
+                        idUsuario: idUsuario
+                    })
+                })
+                    .then(() => {
+                        input_post.value = "";
+                        document.getElementById("input_titulo").value = "";
+                        carregarPosts(); // Atualiza feed
+                    });
+            }
+
+
+            function curtir(idPost) {
+
+                const idUsuario = sessionStorage.ID_USUARIO;
+
+                fetch("/curtir", { // Envia curtida ao servidor
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        idPost: idPost,
+                        idUsuario: idUsuario
+                    })
+                })
+                    .then(() => {
+                        carregarPosts(); // Atualiza feed
+                    });
+            }
+            function buscarLikes(idPost) {
+                return fetch(`/likes/${idPost}`) // Busca quantidade de likes
+                    .then(res => res.json())
+                    .then(data => data.total);
+            }
+
+
+
+            function comentar(idPost, index) {
+                let input = document.getElementById(`comentario_${index}`); // Campo de comentário
+                let texto = input.value;
+                let idUsuario = sessionStorage.ID_USUARIO;
+
+                if (texto == "") return;
+
+                fetch("/comentar", { // Envia comentário
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        conteudo: texto,
+                        idUsuario: idUsuario,
+                        idPost: idPost
+                    })
+                })
+                    .then(res => {
+                        if (!res.ok) throw new Error("Erro ao publicar");
+                        input.value = "";
+                        carregarPosts(); // Atualiza feed
+                    })
+                    .catch(err => {
+                        console.error("Erro ao publicar:", err);
+                    });
+            }
+
+            function carregarPosts() {
+                fetch("/posts") // Busca todos os posts
+                    .then(res => res.json())
+                    .then(data => {
+                        console.log("POSTS:", data); 
+                        posts = data; // Salva os posts
+                        atualizarPosts(); // Atualiza tela
+                    })
+                    .catch(err => {
+                        console.error("ERRO AO CARREGAR POSTS:", err);
+                    });
+            }
+
+            function excluirComentario(idComentario) {
+    const idUsuario = sessionStorage.ID_USUARIO; // Pega ID do usuário logado
+
+    fetch("/excluirComentario", { // Envia requisição para deletar
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            idComentario: idComentario,
+            idUsuario: idUsuario
+        })
+    })
+    .then(() => {
+        carregarPosts(); // Atualiza feed após excluir
+    })
+    .catch(err => {
+        console.error("Erro ao excluir:", err);
+    });
+}
+
+
+            async function atualizarPosts() {
+                lista_posts.innerHTML = ""; // Limpa lista
+
+                for (let i = posts.length - 1; i >= 0; i--) {
+
+                    let post = posts[i];
+
+                    let totalLikes = await buscarLikes(post.id_post); // Busca likes
+
+                    lista_posts.innerHTML += `
+            <div class="post">
+
+                <div style="font-size: 14px; color: gray;">
+                    ${sessionStorage.NOME_USUARIO || "Usuário"} <!-- Nome do usuário -->
+                </div>
+
+                <div style="font-weight: bold; font-size: 18px;">
+    ${post.titulo || "Sem título"} <!-- Título -->
+</div>
+
+<div style="margin: 10px 0;">
+    ${post.conteudo} <!-- Conteúdo -->
+</div>
+                <button class="like-btn" onclick="curtir(${post.id_post})">
+                    ❤️ ${totalLikes}
+                </button>
+
+                <div class="area-comentario">
+                    <input id="comentario_${i}" placeholder="Comentar...">
+                    <button onclick="comentar(${post.id_post}, ${i})">Enviar</button>
+                </div>
+
+                <div class="comentarios">
+                   ${Array.isArray(post.comentarios) ? post.comentarios.map(c => `
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+        <p>💬 ${c.conteudo}</p> <!-- Texto do comentário -->
+
+        ${c.fk_usuario == sessionStorage.ID_USUARIO ? 
+        `<button onclick="excluirComentario(${c.id_comentario})">Excluir</button>` 
+        : ""} <!-- Só mostra botão se for o dono -->
+    </div>
+`).join("") : ""}
+                </div>
+
+            </div>
+        `;
+                }
+            }
+            window.onload = carregarPosts; // Carrega os posts ao abrir a página
+        </script>
+
+</body>
+
+</html>

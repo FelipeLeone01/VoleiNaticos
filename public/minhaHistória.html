@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Minha História</title>
+<link rel="icon" href="assets/favicon2.jpg">
+<link rel="stylesheet" href="cssHeader.css">
+
+<style>
+body {
+    margin: 0; /* Remove margens padrão */
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to bottom, #355391, #1e2f5c); /* Fundo com gradiente */
+
+    display: flex;
+    flex-direction: column; /* Organiza em coluna */
+    min-height: 100vh; /* Altura mínima da tela */
+} 
+
+
+.main {
+    display: flex; /* Layout em linha */
+    justify-content: center; /* Centraliza conteúdo */
+    align-items: flex-start; /* Alinha no topo */
+    gap: 30px;  /* Espaço entre colunas */
+    margin: 40px; /* Espaço externo */
+    padding: 40px;
+        flex: 1; /* Ocupa espaço restante */
+
+}
+
+
+.left {
+    width: 60%; /* Largura da coluna principal */
+}
+
+.right {
+    width: 25%; /* Largura da lateral */
+    display: flex; 
+    flex-direction: column;
+    gap: 20px; /* Espaço entre cards */
+    position: sticky; /* Fica fixo ao rolar */
+    top: 20px; /* faz a lateral acompanhar o scroll */
+}
+
+
+.card {
+    background: rgba(255, 255, 255, 0.95); /* Fundo branco com transparência */
+    padding: 25px;
+    border-radius: 16px; /* Bordas arredondadas */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2); /* Sombra */
+    line-height: 1.6; /* Espaçamento entre linhas */
+}
+
+
+.galeria {
+    display: grid; /* Layout em grade */
+    grid-template-columns: 1fr 1fr; /* Duas colunas */
+    gap: 10px; /* Espaço entre imagens */
+}
+
+.galeria img {
+    width: 100%;  /* Ocupa toda largura */
+    border-radius: 10px; /* Bordas arredondadas */
+    transition: 0.3s; /* Animação suave */
+}
+
+.galeria img:hover {
+    transform: scale(1.05); /* Aumenta imagem ao passar mouse */
+}
+
+
+.highlight {
+    background: #355391;
+    color: white;
+    padding: 15px;
+    border-left: 5px solid #00c3ff; /* Destaque lateral */
+    border-radius: 8px;
+    margin: 20px 0;
+}
+
+.desafios {
+    list-style: none; /* Remove marcadores da lista */
+    padding: 0;
+}
+
+.desafios li {
+    background: #f1f1f1; 
+    margin: 8px 0; /* Espaço entre itens */
+    padding: 10px;
+    border-radius: 6px;
+}
+footer {
+    background-color: midnightblue;
+    color: white;
+    margin-top: 40px;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    padding: 15px;
+    flex-wrap: wrap;
+    text-align: center;
+}
+
+
+.final {
+    text-align: center; /* Centraliza texto */
+    color: black;
+    margin-top: 20px;
+}
+
+@media (max-width: 900px) {
+    .main {
+        flex-direction: column; /* Muda layout para coluna em telas pequenas */
+    }
+
+    .left, .right {
+        width: 100%; /* Ocupa toda largura */
+    }
+
+    .right {
+        position: static; /* Remove fixação lateral */
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>VoleiNáticos</h1>
+    <nav>
+        <a href="minhaHistória.html">Carreira<br>De um<br>Voleibolista</a>
+        <a href="index.html">Home</a>
+        <a href="noticias.html">Notícias</a>
+        <a href="forum.html">Fórum</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="login.html">Login</a>
+        <a href="cadastro.html">Cadastro</a>
+    </nav>
+</header>
+
+<div class="main">
+
+    <div class="left">
+        <div class="card">
+
+            <h2>🏐 O Começo de tudo</h2>
+            <p>Comecei no voleibol na escola, como uma atividade extra-curricular (com 13 anos), pratiquei durante aproximadamente 1 ano, minha técnica 
+era esposa do técnico responsável pela equipe de São Bernardo Do Campo, que estava abrindo uma nova categoria para disputar federação paulista e
+conforme o tempo passava, eu me dedicava mais nos treinos diários, até que veio a oportunidade através da minha técnica, me lembro da nossa conversa até hoje :
+"Tenho uma proposta pra você, é uma oportunidade de viver isso de forma mais profissional, já ouviu falar sobre a FPV ? (Federação Paulista De Voleibol)",
+eu não tinha ideia, mas fiquei entusiasmado com a ideia.
+No dia da seletiva, eu passei com mais algumas pessoas (categoria sub15), desde aquele dia, me comprometi a entregar tudo que era possível da minha parte e 
+me dedicar para dar orgulho aos meus pais, que sempre fizeram jus por mim.</p>
+
+            <h2>Evolução</h2>
+            <p>Esses 2 anos na categoria não foram positivos no quesito resultado (troféus), porém eu senti que estava preparado para novos ares e tinha trabalhado para aquilo.
+No fim de 2023, participei da seletiva do time de Praia Grande, fui sabendo das responsabilidades que viriam pela frente, como ficar longe de familiares, amigos, 
+relacionamentos, abrir tudo em pról de um desejo em ascensão, ao fim da seletiva, fui aprovado na categoria sub17, onde me foi prometido uma série de benefícios :
+<br>- Bolsa Escolar;<br>
+- Auxílio de custo;<br>
+- Vale Transporte; <br>
+- Bônus por campeonato;|<br>
+Fiquei extremamente animado com o projeto que o time apresentava, e continuei me dedicando para me destacar.
+</p></p>
+
+            <h2>Mentalidade</h2>
+            <p>Durante o começo de 2024, tivemos muitos treinos, cargas excessivas, comparações em questão de altura, performance, entre outros, mas segui fazendo meu progresso diariamente,
+seguindo a filosofia de David Goggins, lei dos 40%.</p>
+
+            <h2>Desafios</h2>
+            <p>No ano seguinte, segui trabalhando quieto, com muitas dores, inseguranças e desejo de ser melhor a cada dia, porém vinha um pensamento 
+ao fim do dia, que talvez seria melhor abrir mão dessa rotina e essa vida para focar nos estudos.
+Me lembro de ir para a academia diariamente com a menor das vontades, naquele momento, entendi que havia conquistado a disciplina.
+Acabou ocorrendo a mesma coisa dos anos retrasados, ficava na reserva durante os jogos e mal era utilizado pelo meu treinador, quando chegava
+para conversar com ele e perguntar o que poderia ser melhor, ele me respondia friamente a mesma coisa "Melhore", aquilo ecoava na minha cabeça 
+durante meses, mas eu seguia trabalhando duro para melhorar e contrariar a opinião dele.</p>
+
+            <h2>Oportunidade</h2>
+            <p>No começo do ano, mudaram a localização do ginásio que nós treinávamos (um bem maior, com muito espaço e uma administração que não era chata),
+          com isso, me prometi que chegaria 1h30 antes de todos, para começar a treinar fundamentos, a rotina se tornou ainda mais cansativa, saia da escola, 
+          ja ia direto para casa almoçar, 30 minutos de descanso para a comida descer, logo em seguida academia, pré-treino no ginásio, treino com todos e,
+          depois de tudo isso, poderia descansar e me recuperar para o dia seguinte, foi assim por 5 meses, até que em um dia aleatório, eu recebi uma mensagem
+          do técnico do sub19, um agradecimento ao homem que me acolheu e viu real potencial em mim, Ricardo Vasconcellos e Bruno Ledo, me lembro de chegar a tremer,
+          por conta que o contato com eles era mínimo, pensei que havia alguma irregularidade, até que li a mensagem, simplesmente uma convocação para um jogo do sub19 no sábado,
+          contra a equipe de Campinas(Vôlei Renata), uma das equipes mais fortes do campeonato, mas como assim ? o cara que mal era aproveitado no sub17, indo jogar com a categoria acima ?
+          Começaram os rumores, suposições, tudo que se podia imaginar, quando estávamos indo para o ginásio adversário, eu perguntei aos técnicos o porquê da escolha, e a resposta foi simples, sincera
+          e clara "Observamos que você está sempre em treinamento constante, mas não tem a recompensa devida, por isso, decidimos te dar essa oportunidade, agora cabe a você nos mostrar
+          o porquê você está aqui.", me senti extremamente feliz, porém ainda tinha um dever pela frente.</p>
+
+            <div class="highlight">
+               Quando o jogo começou, a equipe estava perdendo de 19x22 e o técnico me chamou para sacar, 
+pela primeira vez, eu não senti nada, estava unicamente focado no que precisava ser feito naquele momento.
+          Observei a linha de passe da equipe adversária e um dos passadores estava para trás, esperando uma pancada no saque,
+           decidi sacar bem curto, rente a rede,
+          logo quando o apito foi acionado, fiz o saque,
+           a bola viajava devagar na minha cabeça,
+            e do nada tudo acelerou,
+             a bola cai direto no chão dos adversários, ponto para nós ! (20x22)
+No lance seguinte, reparei que ele não havia mudado a postura,
+ repeti a mesma coisa e deu certo ! ponto para nós (21x22).
+Quando estava me dirigindo a linha de saque novamente,
+ reparei que o técnico adversário disse a ele para ficar mais para frente,
+  para antecipar a minha jogada,
+porém, ele estava muito atrás, logo eu decidi sacar visando o fundo da quadra,
+ o adversário não conseguiu pegar, ponto para nós ! (22x22).
+Nessa hora eu e a minha equipe já estavávamos muito felizes com o jogo igualado,
+ a partir dali, o técnico me pediu para somente posicionar o saque,
+  de acordo com o esquema do jogo, altura de bloqueio, entre outros.
+Efetivei o saque, eles recepcionaram com maestria, um levantamento perfeito na pinta para o adversário,
+ o ataque veio na minha direção com muita força, 
+eu fiz a defesa, a bola subiu, e meu time remonta o contra-ataque e pontuamos ! (23x22).
+
+Todos o público foi a loucura com essa jogada, porque foi uma pancada muito forte,
+ e um garoto mais novo defendeu sem sofrer muito.
+Os 2 pontos seguintes foram muito disputados e acabamos ganhando o set contra a forte equipe do Vôlei Renata,
+ ao fim do jogo, ganhamos de 3x2, e eu tenho orgulho de dizer
+que ajudei a virar o primeiro set, que foi fator decisivo para ganharmos.
+Após o jogo,
+ o técnico veio me parabenizar pelo desempenho em quadra
+  e me perguntou o porque eu não tinha mais aproveitamento na minha categoria,
+  eu sinceramente
+fiquei calado, porque não sabia responder a pergunta,
+ ele entendeu que a situação não era agradável, mas que eu tinha potencial.
+Depois daquele jogo, fui convocado mais vezes para participar do jogos sub19,
+ o que causava muitos rumores entre os outros atletas, que se desempenhavam bem no sub17, 
+mas não tinham oportunidade igual a minha.
+            </div>
+
+            <h2>Conquistas</h2>
+            <p>Em setembro de 2024, chegou o campeonato COPA TV TRIBUNA (nascente da Globo, no litoral paulista), onde escolas de toda baixada santista participavam, e 
+tinha um peso muito grande para a escola vencedora, a atual campeã era a escola do meu técnico do sub17, que me deixava de lado nos jogos, me senti na obrigação de me 
+vingar. O chaveamento foi ficando estreito,
+ e pegamos a escola dele na semifinal, um jogo pegado, muitos bons atletas contra e um desafio a ser enfrentado, mas para quem foi desafiado por 2 anos, aquilo era o jogo da vida.
+Ao fim do jogo, ganhamos de 3x1 e eu fui o maior pontuador da partida, 
+com 23 pontos e concedi uma entrevista aos jornalistas locais pela vitória sobre o atual campeão.
+Depois de muito esforço e dedicação, fomos campeões da COPA TV TRIBUNA 2024.
+A euforia pela vitória era grande, mas eu não podia ficar nessa por muito tempo,
+ porque ainda tinha compromisso pelos campeonato paulista sub17 e sub19,
+Tivemos muitos jogos importantes ao longo desse tempo, até chegarmos na final,
+ contra São Bernardo Do Campo, minha primeira e antiga equipe, naquele momento,
+também me vi obrigado a mostrar que meu técnico antigo estava equivocado, e o melhor,
+ todos os que duvidaram de mim estavam lá também presentes, para assistir ao jogo.
+Eu comecei como titular, o que já era um fator diferencial, e joguei o jogo inteiro, ao fim,
+ FOMOS CAMPEÕES PAULISTAS SUB19 de 2024.
+Naquele momento, eu me senti extremamente realizado, 
+pude provar a todos os que desacreditaram de mim e do meu potencial como atleta, mostrar a minha disciplina, 
+ser efetivo e poder contribuir para o meu time e a minha escola.
+Ao fim daquele ano, eu recebi uma bolsa escolar de 100%,
+ o que particularmente foi uma conquista especial, porque senti que dei orgulho aos meus pais, e os impedi de gastar uma boa quantia em dinheiro, por 1 ano.
+Não havia sensação melhor, consegui tudo que almejei,
+ fui reconhecido pelo meu esforço, e aprendi a lidar com as dificuldades da melhor maneira possível.
+ <BR> (COPA TV TRIBUNA + CAMPEÃO PAULISTA SUB19 + 3ºLUGAR CAMPEONATO PAULISTA SUB17)</p>
+
+            <h2>Desafios Enfrentados</h2>
+            <ul class="desafios">
+                <li>Pressão;</li>
+                <li>Comparação;</li>
+                <li>Insegurança;</li>
+                <li>Cansaço físico e mental;</li>
+            </ul>
+
+            <h2>Aprendizado</h2>
+            <p>O voleibol me ensinou disciplina, trabalho em equipe e persistência,
+valores que levo não só para o esporte, mas para a vida inteira.</p>
+<h2 class="final">
+Acredite em você mesmo! 🫵
+</h2>
+        </div>
+    </div>
+    <div class="right">
+
+   
+        <div class="card">
+            <h3>Registros de jogos</h3>
+            <div class="galeria">
+                <img src="assets/imagemhistoria1.jpg">
+                <img src="assets/imagemhistoria2.jpg">
+                <img src="assets/imagemhistoria3.jpg">
+                <img src="assets/imagemhistoria4.jpg">
+            </div>
+        </div>
+
+     
+        <div class="card">
+            <h3>🏆 Destaques</h3>
+            <p>🥇 Campeão Paulista Sub19 2024</p>
+            <p>🥇 Campeão Copa TV Tribuna 2024</p>
+            <p>🥉 3º lugar Camp Paulista Sub17 2024</p>
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+<footer>
+    <div class="footer-container">
+        <p>📞 Contato: (11) 99958-4554</p>
+        <p>✉️ Email: felipeleonegomes@gmail.com</p>
+        <p>© 2026 VoleiNáticos</p>
+    </div>
+</footer>
+
+</body>
+</html>

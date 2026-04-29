@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Notícias</title>
+
+<link rel="stylesheet" href="cssHeader.css"> <!-- Header padrão -->
+<link rel="icon" href="assets/favicon2.jpg">
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial;
+    background: linear-gradient(to bottom, #355391, #1e2f5c);
+    padding-top: 70px;
+
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* CONTEÚDO PRINCIPAL */
+.conteudo {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+/* CONTAINER DAS NOTÍCIAS */
+.noticias-container {
+    width: 80%;
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* CARD DE NOTÍCIA */
+.noticia {
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    border-left: 6px solid midnightblue;
+
+    animation: aparecer 0.3s ease;
+}
+
+/* TÍTULO */
+.noticia h2 {
+    margin: 0 0 10px 0;
+}
+
+/* DATA */
+.data {
+    font-size: 13px;
+    color: gray;
+    margin-bottom: 10px;
+}
+
+/* BOTÃO */
+.btn-noticia {
+    background-color: midnightblue;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.btn-noticia:hover {
+    background-color: #1e2f5c;
+}
+
+/* ANIMAÇÃO */
+@keyframes aparecer {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+footer {
+    background-color: midnightblue;
+    color: white;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    padding: 15px;
+    flex-wrap: wrap;
+    text-align: center;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>VoleiNáticos</h1>
+
+    <nav>
+        <a href="minhaHistória.html">Carreira<br>De um<br>Voleibolista</a>
+        <a href="index.html">Home</a>
+        <a href="noticias.html">Notícias</a> <!-- NOVO BOTÃO -->
+        <a href="forum.html">Fórum</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="login.html">Login</a>
+        <a href="cadastro.html">Cadastro</a>
+    </nav>
+</header>
+
+<div class="conteudo">
+
+    <div class="noticias-container" id="lista_noticias">
+        <!-- Notícias vão aparecer aqui -->
+    </div>
+
+</div>
+
+<footer>
+    <div class="footer-container">
+        <p>📞 Contato: (11) 99958-4554</p>
+        <p>✉️ Email: felipeleonegomes@gmail.com</p>
+        <p>© 2026 VoleiNáticos</p>
+    </div>
+</footer>
+
+<script>
+
+/* LISTA DE NOTÍCIAS (simulando notícias reais com link externo) */
+const noticias = [
+    {
+        titulo: "Praia Clube x Vôlei Renata: duelo de gigantes no Superliga",
+        conteudo: "Partida promete ser um dos grandes momentos da temporada.",
+        data: "27/04/2026",
+        link: "https://ge.globo.com/volei/"
+    },
+    {
+        titulo: "Técnico do Praia Clube Feminino admite favoritismo para a equipe adversária",
+        conteudo: "Apesar do bom momento, treinador reconhece força do Minas Tênis Clube Feminino na Superliga.",
+        data: "26/04/2026",
+        link: "https://www.olympics.com/pt/noticias"
+    },
+    {
+        titulo: "Liga das Nações se aproxima",
+        conteudo: "Equipes já iniciam preparação para o torneio internacional.",
+        data: "24/04/2026",
+        link: "https://www.fivb.com/"
+    }
+];
+
+
+/* FUNÇÃO PRA CARREGAR */
+function carregarNoticias() {
+    const lista = document.getElementById("lista_noticias");
+
+    // limpa antes (boa prática)
+    lista.innerHTML = "";
+
+    noticias.forEach(n => {
+        lista.innerHTML += `
+            <div class="noticia">
+
+                <h2>${n.titulo}</h2>
+
+                <div class="data">
+                    📅 ${n.data}
+                </div>
+
+                <p>${n.conteudo}</p>
+
+                <!-- BOTÃO QUE ABRE O SITE ORIGINAL -->
+                <a href="${n.link}" target="_blank">
+                    <button class="btn-noticia">
+                        Ver notícia completa ↗
+                    </button>
+                </a>
+
+            </div>
+        `;
+    });
+}
+
+window.onload = carregarNoticias;
+
+</script>
+
+</body>
+</html>

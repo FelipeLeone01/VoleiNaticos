@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cadastro </title>
+<link rel="icon" href="assets/favicon2.jpg">
+<script src="./js/sessao.js"></script>
+<link rel="stylesheet" href="cssHeader.css">
+
+<style>
+body {
+    margin: 0; /* Remove margens do navegador */
+    font-family: Arial, sans-serif; /* Define a fonte */
+    background: linear-gradient(to right, #1e2f5c, #355391);
+    padding-top: 70px; /* Espaço no topo para não sobrepor o header */
+}
+
+.login-container {
+    display: flex; /* Organiza os elementos lado a lado */
+    height: calc(100vh - 70px); /* Altura total menos a altura do header */
+}
+
+.login-left {
+    flex: 1; /* Ocupa metade da tela */
+    color: white;
+    display: flex;
+    flex-direction: column; /* Organiza em coluna */
+    justify-content: center; /* Centraliza verticalmente */
+    padding: 60px; /* Espaçamento interno */
+}
+
+.login-left h2 {
+    font-size: 2.5em; /* Tamanho do título */
+}
+
+.login-right {
+    flex: 1; /* Ocupa metade da tela */
+    display: flex;
+    justify-content: center; /* Centraliza horizontalmente */
+    align-items: center; /* Centraliza verticalmente */
+}
+
+
+.card {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px; /* Bordas arredondadas */
+    width: 350px; /* Largura fixa */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3); /* Sombra ao redor */
+}
+
+
+.campo {
+    margin-bottom: 15px; /* Espaço entre os campos */
+}
+
+.campo input {
+    width: 100%; /* Ocupa toda largura */
+    padding: 10px; 
+    border-radius: 5px; /* Bordas arredondadas */
+    border: 1px solid #ccc;
+}
+
+
+.campo input:focus {
+    outline: none; /* Remove borda padrão ao clicar */
+    border-color: #355391;
+    box-shadow: 0 0 5px rgba(53,83,145,0.5); /* Adiciona efeito de foco */
+}
+
+
+.botao {
+    width: 100%;
+    padding: 12px;
+    background-color: midnightblue;
+    color: white;
+    border: none; /* Remove borda */
+    border-radius: 5px; /* Bordas arredondadas */
+    cursor: pointer; /* Mostra o cursor de clique */
+}
+
+.botao:hover {
+    background-color: #1e2f5c; /* Muda a cor ao passar o mouse */
+}
+
+
+
+.card_erro {
+    display: none; /* Pra deixar escondido */
+    background-color: #ff4d4d;
+    color: white;
+    padding: 10px;
+    margin-bottom: 10px; /* Espaço abaixo */
+    border-radius: 5px;
+    text-align: center; /* Centraliza o texto */
+}
+footer {
+    background-color: midnightblue;
+    color: white;
+    margin-top: 40px; /* Espaço acima */
+}
+
+.footer-container {
+    display: flex; /* Organiza itens em linha */
+    justify-content: center;
+    gap: 40px; /* Espaço entre itens */
+    padding: 15px;
+    flex-wrap: wrap; /* Permite quebrar linha */
+    text-align: center; /* Centraliza texto */
+}
+
+.footer-container p {
+    margin: 0; /* Remove margens */
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>VoleiNáticos</h1>
+
+    <nav>
+        <a href="minhaHistória.html">Carreira<br>De um<br>Voleibolista</a>
+        <a href="index.html">Home</a>
+        <a href="noticias.html">Notícias</a>
+        <a href="forum.html">Fórum</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="login.html">Login</a>
+        <a href="cadastro.html">Cadastro</a>
+    </nav>
+</header>
+
+<div class="login-container">
+
+    <div class="login-left">
+        <h2>Crie sua conta 🏐</h2>
+        <p>Comece agora sua jornada no voleibol.</p>
+    </div>
+
+    <div class="login-right">
+
+        <div class="card">
+
+            <div class="card_erro" id="cardErro">
+                <span id="mensagem_erro"></span>
+            </div>
+
+            <h2>🏐 Bem-vindo!</h2>
+
+            <div class="formulario">
+                <div class="campo">
+                    <span>Nome:</span>
+                    <input id="nome_input" type="text" placeholder="Seu nome">
+                </div>
+
+                <div class="campo">
+                    <span>Email:</span>
+                    <input id="email_input" type="text"  placeholder="meuemail@provedor.com">
+                </div>
+
+                <div class="campo">
+                    <span>Senha:</span>
+                    <input id="senha_input" type="password"  placeholder="***********">
+                </div>
+
+                <div class="campo">
+                    <span>Confirmar senha:</span>
+                    <input id="confirmacao_senha_input" type="password"  placeholder="***********">
+                </div>
+
+                <div class="campo">
+                    <span>CPF:</span>
+                    <input id="cpf_input" type="text" placeholder="***********">
+                </div>
+
+               <button class="botao" onclick="cadastrar()" id="btnCadastro">Cadastrar</button>
+                <div id="div_aguardar" class="loading-div"></div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>
+<footer>
+    <div class="footer-container">
+        <p>📞 Contato: (11) 99958-4554</p>
+        <p>✉️ Email: felipeleonegomes@gmail.com</p>
+        <p>© 2026 VoleiNáticos</p>
+    </div>
+</footer>
+
+<script>
+   function cadastrar() {
+
+    var nomeVar = nome_input.value;
+    var emailVar = email_input.value;
+    var senhaVar = senha_input.value;
+    var confirmacaoSenhaVar = confirmacao_senha_input.value;
+    var cpfVar = cpf_input.value;
+
+    var dominiosPermitidos = ["gmail.com", "hotmail.com", "outlook.com"];
+
+    // VALIDAR DOMÍNIO
+    function validarDominio(email) {
+        var dominio = "";
+        var achouArroba = false;
+
+        for (var i = 0; i < email.length; i++) {
+            if (email[i] == "@") {
+                achouArroba = true;
+            } else if (achouArroba) {
+                dominio += email[i];
+            }
+        }
+
+        for (var j = 0; j < dominiosPermitidos.length; j++) {
+            if (dominio == dominiosPermitidos[j]) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    // FORÇA DA SENHA (SEM includes/match)
+    function calcularForcaSenha(senha) {
+        var forca = 0;
+
+        forca += senha.length;
+
+        for (var i = 0; i < senha.length; i++) {
+            var letra = senha[i];
+
+            if (letra == "@" || letra == "#") {
+                forca += 5;
+            }
+
+            if (letra >= "A" && letra <= "Z") {
+                forca += 5;
+            }
+        }
+
+        return forca;
+    }
+
+    // CPF
+    function validarCPF(cpf) {
+        var soma = 0;
+
+        for (var i = 0; i < cpf.length; i++) {
+            soma += Number(cpf[i]);
+        }
+
+        return soma > 10;
+    }
+
+    // VALIDAÇÕES BÁSICAS
+    if (nomeVar == "" || emailVar == "" || senhaVar == "" || confirmacaoSenhaVar == "" || cpfVar == "") {
+        cardErro.style.display = "block";
+        mensagem_erro.innerHTML = "(Preencha todos os campos)";
+        return;
+    }
+
+    if (!(nomeVar.length > 1)) {
+        cardErro.style.display = "block";
+        mensagem_erro.innerHTML = "(Nome inválido)";
+        return;
+    }
+
+    // VALIDAR EMAIL SEM includes
+    var temArroba = false;
+    var temPonto = false;
+
+    for (var i = 0; i < emailVar.length; i++) {
+        if (emailVar[i] == "@") temArroba = true;
+        if (emailVar[i] == ".") temPonto = true;
+    }
+
+    if (!(temArroba && temPonto)) {
+        cardErro.style.display = "block";
+        mensagem_erro.innerHTML = "(Email inválido)";
+        return;
+    }
+
+    if (!(senhaVar.length > 6)) {
+        cardErro.style.display = "block";
+        mensagem_erro.innerHTML = "(Senha inválida)";
+        return;
+    }
+
+    if (senhaVar != confirmacaoSenhaVar) {
+        cardErro.style.display = "block";
+        mensagem_erro.innerHTML = "(Senhas diferentes)";
+        return;
+    }
+
+    if (!(cpfVar.length == 11)) {
+        cardErro.style.display = "block";
+        mensagem_erro.innerHTML = "(CPF inválido)";
+        return;
+    }
+
+    // VALIDAÇÕES AVANÇADAS
+    if (!validarDominio(emailVar)) {
+        cardErro.style.display = "block";
+        mensagem_erro.innerHTML = "(Use gmail, hotmail ou outlook)";
+        return;
+    }
+
+    var forcaSenha = calcularForcaSenha(senhaVar);
+
+    if (forcaSenha < 10) {
+        cardErro.style.display = "block";
+        mensagem_erro.innerHTML = "(Senha fraca)";
+        return;
+    }
+
+    if (!validarCPF(cpfVar)) {
+        cardErro.style.display = "block";
+        mensagem_erro.innerHTML = "(CPF inválido)";
+        return;
+    }
+
+    // FETCH (igual você já tinha)
+    fetch("/usuarios/cadastrar", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            nomeServer: nomeVar,
+            emailServer: emailVar,
+            senhaServer: senhaVar,
+            cpfServer: cpfVar
+        }),
+    })
+    .then(function (resposta) {
+        if (resposta.ok) {
+            cardErro.style.display = "block";
+            mensagem_erro.innerHTML = "Cadastro realizado!";
+
+            setTimeout(() => {
+                window.location = "login.html";
+            }, 2000);
+        }
+    })
+    .catch(function (erro) {
+        console.log(erro);
+    });
+
+    return false;
+}
+function sumirMensagem() {
+    cardErro.style.display = "none"; // Esconde a mensagem de erro
+  }
+
+</script>

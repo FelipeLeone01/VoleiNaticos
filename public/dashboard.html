@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Dashboard VoleiNáticos</title>
+<link rel="icon" href="assets/favicon2.jpg">
+<link rel="stylesheet" href="cssHeader.css">
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial;
+    background-color: #355391;
+    background: linear-gradient(to bottom, #355391, #1e2f5c);
+     padding-top: 70px; 
+}
+
+
+/* header {
+    background-color: midnightblue;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header h1 {
+    color: white;
+    margin: 0;
+    margin-left: 40px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+nav a {
+    color: white;
+    margin-left: 15px;
+    text-decoration: none;
+    font-weight: bold;
+} */
+
+
+.container {
+   width: 85%;
+      margin: auto;
+    margin-top: 30px;
+}
+
+
+.kpis {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.kpi {
+    width: 30%;
+    margin-bottom: 15px;
+    padding: 15px;
+    border-radius: 8px;
+    color: white;
+    text-align: center;
+}
+
+
+.verde { background-color: green; }
+.amarelo { background-color: goldenrod; }
+.vermelho { background-color: red; }
+
+
+.barra-container {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+.barra {
+    height: 25px;
+    margin-bottom: 10px;
+    color: white;
+    padding-left: 10px;
+}
+
+
+.explicacao {
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 25px;
+}
+
+footer {
+    background-color: midnightblue;
+    color: white;
+    margin-top: 40px;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    padding: 15px;
+    flex-wrap: wrap;
+    text-align: center;
+}
+
+.footer-container p {
+    margin: 0;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>VoleiNáticos</h1>
+    <nav>
+        <a href="minhaHistória.html">Carreira<br>De um<br>Voleibolista</a>
+        <a href="index.html">Home</a>
+        <a href="noticias.html">Notícias</a>
+        <a href="forum.html">Fórum</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="login.html">Login</a>
+        <a href="cadastro.html">Cadastro</a>
+       
+    </nav>
+</header>
+
+<div class="container">
+
+    
+    <div class="explicacao">
+        <h3>Como funciona?</h3>
+        <p>
+        A eficiência dentro de quadra é calculada por:
+        <b>(acertos ÷ tentativas) × 100</b>.
+        Quanto maior a porcentagem, melhor o desempenho. <br>
+       <b>Essa é uma simulação de um atleta, qual será a posição dele ?</b>
+        </p>
+    </div>
+
+   
+    <div class="kpis" id="kpis"></div>
+
+    <!-- BARRAS -->
+    <div class="barra-container" id="barras">
+        <h2>Desempenho por Fundamento</h2>
+    </div>
+
+</div>
+
+<footer>
+    <div class="footer-container">
+        <p>📞 Contato: (11) 99958-4554</p>
+        <p>✉️ Email: felipeleonegomes@gmail.com</p>
+        <p>© 2026 VoleiNáticos</p>
+    </div>
+</footer>
+
+</body>
+</html>
+
+<script>
+let dados = [
+    ["Ataque", 10, 40],
+    ["Bloqueio", 10, 20],
+    ["Saque", 15, 25],
+    ["Recepção", 10, 35],
+    ["Defesa", 18, 30],
+    ["Toque", 25, 30],
+    ["Manchete", 20, 28],
+    ["Levantamento", 30, 32],
+    ["Passe", 22, 26]
+];
+
+function cor(valor){
+    if(valor >= 70){
+        return "verde";
+    } else if(valor >= 50){
+        return "amarelo";
+    } else {
+        return "vermelho";
+    }
+}
+
+for(let i = 0; i < dados.length; i++){
+
+    let nome = dados[i][0];
+    let acertos = dados[i][1];
+    let tentativas = dados[i][2];
+
+    let eficiencia = (acertos / tentativas) * 100;
+    let classe = cor(eficiencia);
+
+    
+    kpis.innerHTML += `
+        <div class="kpi ${classe}">
+            <h3>${nome}</h3>
+            <h1>${eficiencia.toFixed(1)}%</h1>
+            <p>${acertos}/${tentativas}</p>
+        </div>
+    `;
+
+    
+    barras.innerHTML += `
+        <div class="barra ${classe}" style="width:${eficiencia}%;">
+            ${nome} - ${eficiencia.toFixed(1)}%
+        </div>
+    `;
+}
+</script>

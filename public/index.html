@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VoleiNáticos</title>
+    <link rel="icon" href="assets/favicon2.jpg">
+    <link rel="stylesheet" href="cssHeader.css">
+
+    <style>
+      
+.hero {
+    position: relative; /* Permite posicionar elementos dentro dele */
+    height: calc(100vh - 70px); /* Ocupa altura da tela menos o header */
+    overflow: hidden; /* Esconde o que passar da área */
+}
+
+
+.video-bg {
+    position: absolute; /* Permite posicionamento livre */
+    top: 50%;
+    left: 50%;
+    min-width: 100%; /* Garante que ocupe toda largura */
+    min-height: 100%; /* Garante que ocupe toda altura */
+    transform: translate(-50%, -50%); /* Centraliza o vídeo */
+    object-fit: cover; /* Ajusta o vídeo sem distorcer */
+}
+
+
+.overlay {
+    position: absolute; /* Fica sobre o vídeo */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Camada escura por cima do vídeo */
+}
+
+
+.hero-content {
+    position: relative; /* Fica acima do overlay */
+    z-index: 2; /* Garante que fique na frente */
+    color: white;
+    text-align: center;
+    top: 50%;
+    transform: translateY(-50%); /* Centraliza verticalmente */
+    padding: 20px;
+}
+
+.hero-content h2 {
+    font-size: 3em; /* Tamanho do título */
+    margin-bottom: 10px;
+}
+
+.hero-content p {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+}
+
+
+        body{
+    margin: 0; /* Remove margens */
+    font-family: Arial, sans-serif;
+    background-color: #355391; 
+    background: linear-gradient(to bottom, #355391, #1e2f5c);  /* Fundo gradiente */
+}
+
+
+ /* header {
+    background-color: midnightblue;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+
+    box-sizing: border-box; 
+}
+nav {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-right: 20px; 
+}
+
+header h1 {
+    color: white;
+    margin: 0;
+    margin-left: 20px; 
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}  */
+
+
+
+
+.container {
+    width: 80%; /* Define largura */
+    margin: auto; /* Centraliza */
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.subheader {
+    background-color: midnightblue;
+    color: white;
+    text-align: center;
+    padding: 8px;
+}
+
+.conteudo {
+    width: 90%;
+    margin: auto;
+    margin-top: 40px;
+
+    display: flex;
+    gap: 20px; /* Espaço entre cards */
+    flex-wrap: wrap; /* Permite quebrar linha */
+    justify-content: center;
+}
+
+.card {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px; /* Bordas arredondadas */
+
+    width: 300px;
+    min-height: 350px;
+ 
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2); /* Sombra */
+    transition: 0.3s; /* Animação suave */
+}
+
+.card:hover {
+    transform: translateY(-8px); /* Levanta o card ao passar o mouse */
+}
+
+
+.card h2 {
+    color: midnightblue;
+}
+
+.btn {
+    background-color: midnightblue;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer; /* Cursor de clique */
+    border-radius: 5px;
+}
+footer {
+    background-color: midnightblue;
+    color: white;
+    margin-top: 40px;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: center; /* Centraliza */
+    gap: 40px; /* Espaço entre itens */
+    padding: 15px;
+    flex-wrap: wrap;
+    text-align: center;
+}
+
+.footer-container p {
+    margin: 0;
+}
+.cta {
+    text-align: center; /* Centraliza conteúdo */
+    color: white;
+    padding: 80px 20px; /* Espaçamento */
+}
+
+.cta h2 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
+
+.cta p {
+    font-size: 1.2em;
+    margin-bottom: 30px;
+}
+
+
+.cta-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.btn-outline {
+    border: 2px solid white; /* Borda branca */
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.btn-outline:hover {
+    background-color: white; /* Inverte cores ao passar mouse */
+    color: #1e2f5c;
+}
+    </style>
+
+</head>
+<header>
+    <h1>VoleiNáticos</h1>
+    <nav>
+        <a href="minhaHistória.html">Carreira<br>De um<br>Voleibolista</a>
+        <a href="#">Home</a>
+        <a href="noticias.html">Notícias</a>
+        <a href="forum.html">Fórum</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="login.html">Login</a>
+        <a href="cadastro.html">Cadastro</a>
+    </nav>
+</header>
+
+<section class="hero">
+    <video autoplay muted loop class="video-bg">
+        <source src="assets/VideoSeleçãoBR2.mp4" type="video/mp4">
+    </video>
+
+    <div class="overlay"></div>
+
+    <div class="hero-content">
+        <b><h3>Mais que um esporte, uma energia que move milhões !</h3></b>
+        <b><p>Você pode ser o próximo.</p></b>
+    </div>
+</section>
+<section class="conteudo">
+
+    <div class="card">
+        <h2>🏐 História do Voleibol</h2>
+        <p>
+            O voleibol foi criado em 1895 por William G. Morgan, nos Estados Unidos. 
+            A ideia era desenvolver um esporte menos violento que o basquete, mas ainda competitivo.
+            No início, ele era chamado de “mintonette”.
+            <br><br>
+            Com o tempo, o esporte evoluiu, ganhou regras mais definidas e se espalhou pelo mundo.
+            Em 1964, o voleibol entrou para as Olimpíadas, tornando-se um dos esportes mais populares do planeta.
+        </p>
+    </div>
+
+    <div class="card">
+        <h2>🇧🇷 Voleibol no Brasil</h2>
+        <p>
+            O Brasil é uma das maiores potências do voleibol mundial.
+            O esporte ganhou força principalmente a partir dos anos 80, com grandes conquistas internacionais.
+            <br><br>
+            A principal competição nacional é a Superliga, que reúne os melhores times do país.
+            Tanto no masculino quanto no feminino, o Brasil sempre disputa títulos e revela grandes talentos.
+        </p>
+    </div>
+
+    <div class="card">
+        <h2>🏆 Principais Times</h2>
+        <p>
+            Alguns dos clubes mais importantes do voleibol brasileiro são:
+            <br><br>
+            • Sada Cruzeiro (dominante nos últimos anos) <br>
+            • SESI-SP <br>
+            • Minas Tênis Clube <br>
+            • Praia Clube <br>
+            • Osasco Vôlei <br>
+            • Flamengo (em crescimento)
+            <br><br>
+            Esses times disputam a Superliga e competições internacionais.
+        </p>
+    </div>
+
+    <div class="card">
+        <h2>⭐ Grandes Jogadores</h2>
+        <p>
+            O voleibol já teve atletas lendários:
+            <br><br>
+            • Giba (um dos maiores da história) <br>
+            • Serginho (melhor líbero da história) <br>
+            • Bernardinho (técnico histórico) <br>
+            • Karch Kiraly (lenda mundial) <br>
+            • Zhu Ting (destaque mundial feminino)
+            <br><br>
+            Esses nomes ajudaram a transformar o voleibol em um esporte global.
+        </p>
+        
+    </div>
+<div class="card">
+    <h2>📏 Regras Básicas</h2>
+    <p>
+        O voleibol é jogado por duas equipes com 6 jogadores cada.
+        O objetivo é fazer a bola tocar o chão do lado adversário.
+        <br><br>
+        Cada time pode dar até 3 toques na bola antes de enviá-la ao outro lado.
+        Não é permitido segurar a bola — os movimentos devem ser rápidos.
+        <br><br>
+        As partidas são disputadas em sets, geralmente até 25 pontos.
+    </p>
+</div>
+
+<div class="card">
+    <h2>💪 Benefícios do Voleibol</h2>
+    <p>
+        Praticar voleibol traz diversos benefícios:
+        <br><br>
+        • Melhora o condicionamento físico <br>
+        • Desenvolve trabalho em equipe <br>
+        • Aumenta reflexos e coordenação <br>
+        • Reduz o estresse <br>
+        <br>
+        Além disso, é um esporte acessível e muito divertido de jogar com amigos.
+    </p>
+</div>
+</section>
+<section class="cta">
+    <h2>Pronto para entrar em quadra?</h2>
+    <p>Crie sua conta e comece a acompanhar o mundo do voleibol.</p>
+
+    <div class="cta-buttons">
+        <a href="cadastro.html" class="btn">Criar Conta</a>
+        <a href="dashboard.html" class="btn-outline">Ver Dashboard</a>
+    </div>
+</section>
+<footer>
+    <div class="footer-container">
+        <p>📞 Contato: (11) 99958-4554</p>
+        <p>✉️ Email: felipeleonegomes@gmail.com</p>
+        <p>© 2026 VoleiNáticos</p>
+    </div>
+</footer>
+
+</html>
+

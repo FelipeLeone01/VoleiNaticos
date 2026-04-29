@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login VoleiNáticos</title>
+    <link rel="icon" href="assets/favicon2.jpg">
+    <script src="./js/sessao.js"></script>
+    <link rel="stylesheet" href="cssHeader.css">
+
+    <style>
+        body {
+            margin: 0;
+            /* Remove margens padrão */
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #1e2f5c, #355391);
+            /* Fundo com gradiente */
+        }
+
+
+
+        /* header {
+    background-color: midnightblue;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header h1 {
+    color: white;
+    margin: 0;
+    margin-left: 40px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin-left: 15px;
+    font-weight: bold;
+} */
+
+
+        .login-container {
+            display: flex;
+            /* Layout lado a lado */
+            height: calc(100vh - 70px);
+            /* Altura da tela menos header */
+        }
+
+
+        .login-left {
+            flex: 1;
+            /* Ocupa metade da tela */
+            color: white;
+            display: flex;
+            flex-direction: column;
+            /* Organiza em coluna */
+            justify-content: center;
+            /* Centraliza verticalmente */
+            padding: 60px;
+        }
+
+        .login-left h2 {
+            font-size: 2.5em;
+            /* Tamanho do título */
+        }
+
+        .login-left p {
+            font-size: 1.2em;
+        }
+
+
+        .login-right {
+            flex: 1;
+            /* Outra metade da tela */
+            display: flex;
+            justify-content: center;
+            /* Centraliza horizontalmente */
+            align-items: center;
+            /* Centraliza verticalmente */
+        }
+
+
+        .card {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            /* Bordas arredondadas */
+            width: 350px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            /* Sombra */
+        }
+
+
+        .campo {
+            margin-bottom: 15px;
+            /* Espaço entre campos */
+        }
+
+        .campo input {
+            width: 100%;
+            /* Ocupa toda largura */
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+
+        .campo input:focus {
+            outline: none;
+            /* Remove borda padrão */
+            border-color: #355391;
+            /* Muda cor ao focar */
+            box-shadow: 0 0 5px rgba(53, 83, 145, 0.5);
+            /* Efeito de foco */
+        }
+
+
+        .botao {
+            width: 100%;
+            padding: 12px;
+            background-color: midnightblue;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            /* Cursor de clique */
+        }
+
+        .botao:hover {
+            background-color: #1e2f5c;
+            /* Muda cor ao passar mouse */
+        }
+
+        /* ERRO */
+        .card_erro {
+            display: none;
+            /* Começa escondido */
+            background-color: #ff4d4d;
+            color: white;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        footer {
+            background-color: midnightblue;
+            color: white;
+            margin-top: 40px;
+        }
+
+        .footer-container {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            padding: 15px;
+            flex-wrap: wrap;
+            text-align: center;
+        }
+
+        .footer-container p {
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>VoleiNáticos</h1>
+
+        <nav>
+            <a href="minhaHistória.html">Carreira<br>De um<br>Voleibolista</a>
+            <a href="index.html">Home</a>
+            <a href="noticias.html">Notícias</a>
+            <a href="forum.html">Fórum</a>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="login.html">Login</a>
+            <a href="cadastro.html">Cadastro</a>
+        </nav>
+    </header>
+
+    <div class="login-container">
+
+        <div class="login-left">
+            <h2>Bem-vindo de volta! 🏐</h2>
+            <p>Entre e continue sua jornada no voleibol.</p>
+        </div>
+
+        <div class="login-right">
+
+            <div class="card">
+
+                <div class="card_erro" id="cardErro">
+                    <span id="mensagem_erro"></span>
+                </div>
+
+                <h2>Login</h2>
+
+                <div class="campo">
+                    <input id="email_input" type="text" placeholder="Email">
+                </div>
+
+                <div class="campo">
+                    <input id="senha_input" type="password" placeholder="Senha">
+                </div>
+
+                <button class="botao" onclick="entrar()" id="btnLogin">Entrar</button>
+                <div id="div_aguardar"></div>
+
+                <p style="text-align:center; margin-top:10px;">
+                    Não tem conta? <a href="cadastro.html">Cadastre-se</a>
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>
+<footer>
+    <div class="footer-container">
+        <p>📞 Contato: (11) 99958-4554</p>
+        <p>✉️ Email: felipeleonegomes@gmail.com</p>
+        <p>© 2026 VoleiNáticos</p>
+    </div>
+</footer>
+
+
+<script>
+    var tentativas = [];
+
+    function entrar() { // Função chamada ao clicar em "Entrar"
+        aguardar()  // Mostra loading
+
+
+
+        var emailVar = email_input.value;
+        var senhaVar = senha_input.value;
+
+        if (emailVar == "" || senhaVar == "") { // Verifica campos vazios
+            cardErro.style.display = "block"
+            mensagem_erro.innerHTML = "(Preencha todos os campos)";
+            finalizarAguardar(); // Esconde loading
+            return false; // Interrompe execução
+        }
+        else {
+            setTimeout(sumirMensagem, 5000) // Esconde mensagem após 5 segundos
+        }
+
+        tentativas.push(emailVar);
+
+        var totalTentativas = 0;
+
+        for (var i = 0; i < tentativas.length; i++) {
+            totalTentativas++; // operação matemática
+        }
+
+        if (totalTentativas > 3) {
+            var tempo = totalTentativas * 2; // operação matemática
+
+            cardErro.style.display = "block";
+            mensagem_erro.innerHTML = "(Muitas tentativas! Aguarde " + tempo + " segundos)";
+
+            setTimeout(() => {
+                sumirMensagem();
+            }, tempo * 1000);
+            finalizarAguardar();
+            return;
+        }
+
+        console.log("FORM LOGIN: ", emailVar);
+        console.log("FORM SENHA: ", senhaVar);
+
+        fetch("/usuarios/autenticar", { // Envia dados para o servidor
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                emailServer: emailVar,
+                senhaServer: senhaVar
+            })
+        }).then(function (resposta) {
+            console.log("ESTOU NO THEN DO entrar()!")
+
+            if (resposta.ok) { // Se o login deu certo
+                console.log(resposta);
+
+                resposta.json().then(json => {
+                    console.log("JSON COMPLETO:", json);
+                    console.log(json);
+                    console.log(JSON.stringify(json));
+                    sessionStorage.EMAIL_USUARIO = json.email; // Salva email na sessão
+                    sessionStorage.NOME_USUARIO = json.nome; // Salva nome
+                    sessionStorage.ID_USUARIO = json.id_usuario; // Salva ID
+
+
+                    setTimeout(function () {
+                        window.location = "./index.html";
+                    }, 1000); // apenas para exibir o loading
+
+                });
+
+            } else {
+
+                console.log("Houve um erro ao tentar realizar o login!");
+
+                resposta.text().then(texto => {
+                    console.error(texto);
+                    finalizarAguardar(texto); // Mostra erro
+                });
+            }
+
+        }).catch(function (erro) {
+            console.log(erro); // Mostra erro no console
+        })
+
+        return false; // Evita recarregar página
+    }
+
+    function sumirMensagem() { // Esconde mensagem de erro
+        cardErro.style.display = "none"
+    }
+</script>
