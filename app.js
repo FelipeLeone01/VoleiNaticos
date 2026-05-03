@@ -153,6 +153,23 @@ app.post("/excluirComentario", function (req, res) { // Rota para excluir coment
         });
 });
 
+app.post("/dashboard", function(req, res){
+
+    const { ataque, recepcao } = req.body;
+
+    let posicao = "Indefinido";
+
+    if(recepcao > 80){
+        posicao = "Líbero";
+    } else if(ataque > 80){
+        posicao = "Oposto";
+    } else if(ataque > 70){
+        posicao = "Ponteiro";
+    }
+
+    res.json({ posicao });
+});
+
 var usuarioRouter = require("./src/routes/usuarios"); // Importa rotas de usuários
 
 

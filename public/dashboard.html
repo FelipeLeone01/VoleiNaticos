@@ -1,211 +1,447 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
-<meta charset="UTF-8">
-<title>Dashboard VoleiNáticos</title>
-<link rel="icon" href="assets/favicon2.jpg">
-<link rel="stylesheet" href="cssHeader.css">
+    <meta charset="UTF-8">
 
-<style>
-body {
-    margin: 0;
-    font-family: Arial;
-    background-color: #355391;
-    background: linear-gradient(to bottom, #355391, #1e2f5c);
-     padding-top: 70px; 
-}
+    <!-- Título da página -->
+    <title>Dashboard VoleiNáticos</title>
 
+    <!-- Ícone da aba -->
+    <link rel="icon" href="assets/favicon2.jpg">
 
-/* header {
-    background-color: midnightblue;
-    padding: 15px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
+    <!-- CSS do header (arquivo externo) -->
+    <link rel="stylesheet" href="cssHeader.css">
 
-header h1 {
-    color: white;
-    margin: 0;
-    margin-left: 40px;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-}
+    <!-- Biblioteca Chart.js usada para criar o gráfico radar -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-nav a {
-    color: white;
-    margin-left: 15px;
-    text-decoration: none;
-    font-weight: bold;
-} */
+    <style>
+        /* Estilo geral da página */
+        body {
+            margin: 0;
+            font-family: Arial;
+            background-color: #355391;
+            background: linear-gradient(to bottom, #355391, #1e2f5c);
+            padding-top: 70px;
+        }
 
+        /* Container principal que centraliza o conteúdo */
+        .container {
+            width: 85%;
+            margin: auto;
+            margin-top: 30px;
+        }
 
-.container {
-   width: 85%;
-      margin: auto;
-    margin-top: 30px;
-}
+        /* Área onde ficam os KPIs */
+        .kpis {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
 
+        /* Estilo dos cards de KPI */
+        .kpi {
+            width: 30%;
+            margin-bottom: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            color: white;
+            text-align: center;
+        }
 
-.kpis {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-}
+        /* Cores baseadas no desempenho */
+        .verde { background-color: green; }
+        .amarelo { background-color: goldenrod; }
+        .vermelho { background-color: red; }
 
-.kpi {
-    width: 30%;
-    margin-bottom: 15px;
-    padding: 15px;
-    border-radius: 8px;
-    color: white;
-    text-align: center;
-}
+        /* Inputs de entrada de dados */
+        input {
+            padding: 8px;
+            margin: 5px;
+            border-radius: 5px;
+            border: none;
+        }
 
+        /* Botão de gerar análise */
+        button {
+            padding: 10px 20px;
+            background-color: #a64d5f;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
 
-.verde { background-color: green; }
-.amarelo { background-color: goldenrod; }
-.vermelho { background-color: red; }
+        button:hover {
+            background-color: #8c3a4d;
+        }
 
+        /* Container das barras e gráfico */
+        .barra-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
 
-.barra-container {
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    margin-top: 20px;
-}
+        /* Barras de desempenho */
+        .barra {
+            height: 25px;
+            margin-bottom: 10px;
+            color: white;
+            padding-left: 10px;
+        }
 
-.barra {
-    height: 25px;
-    margin-bottom: 10px;
-    color: white;
-    padding-left: 10px;
-}
+        /* Caixa de explicação / inputs */
+        .explicacao {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+        }
 
+        /* Ajuste do tamanho do gráfico */
+        canvas {
+            max-width: 500px;
+            margin: auto;
+            display: block;
+        }
 
-.explicacao {
-    background: white;
-    padding: 15px;
-    border-radius: 8px;
-    margin-bottom: 25px;
-}
+        /* Rodapé */
+        footer {
+            background-color: midnightblue;
+            color: white;
+            margin-top: 40px;
+        }
 
-footer {
-    background-color: midnightblue;
-    color: white;
-    margin-top: 40px;
-}
+        .footer-container {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            padding: 15px;
+            flex-wrap: wrap;
+            text-align: center;
+        }
 
-.footer-container {
-    display: flex;
-    justify-content: center;
-    gap: 40px;
-    padding: 15px;
-    flex-wrap: wrap;
-    text-align: center;
-}
-
-.footer-container p {
-    margin: 0;
-}
-</style>
+        .footer-container p {
+            margin: 0;
+        }
+    </style>
 </head>
 
 <body>
 
-<header>
-    <h1>VoleiNáticos</h1>
-    <nav>
-        <a href="minhaHistória.html">Carreira<br>De um<br>Voleibolista</a>
-        <a href="index.html">Home</a>
-        <a href="noticias.html">Notícias</a>
-        <a href="forum.html">Fórum</a>
-        <a href="dashboard.html">Dashboard</a>
-        <a href="login.html">Login</a>
-        <a href="cadastro.html">Cadastro</a>
-       
-    </nav>
-</header>
+    <!-- Header com navegação -->
+    <header>
+        <h1>VoleiNáticos</h1>
+        <nav id="navLinks">
+    <a href="minhaHistória.html">Carreira<br>De um<br>Voleibolista</a>
+    <a href="index.html">Home</a>
+    <a href="noticias.html">Notícias</a>
+    <a href="forum.html">Fórum</a>
+    <a href="dashboard.html">Dashboard</a>
+</nav>
+    </header>
 
-<div class="container">
+    <div class="container">
 
-    
-    <div class="explicacao">
-        <h3>Como funciona?</h3>
-        <p>
-        A eficiência dentro de quadra é calculada por:
-        <b>(acertos ÷ tentativas) × 100</b>.
-        Quanto maior a porcentagem, melhor o desempenho. <br>
-       <b>Essa é uma simulação de um atleta, qual será a posição dele ?</b>
-        </p>
+        <!-- Área onde o usuário insere os dados -->
+       <div class="explicacao">
+    <h3>Entenda seu desempenho e descubra sua posição ideal</h3>
+
+    <p>Preencha os fundamentos do jogo:</p>
+
+    <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+
+        <!-- ATAQUE -->
+        <div>
+            <label for="ataqueA">Ataque</label><br>
+            <input id="ataqueA" type="number" placeholder="Acertos">
+            <input id="ataqueT" type="number" placeholder="Tentativas">
+        </div>
+
+        <!-- BLOQUEIO -->
+        <div>
+            <label for="bloqueioA">Bloqueio</label><br>
+            <input id="bloqueioA" type="number" placeholder="Acertos">
+            <input id="bloqueioT" type="number" placeholder="Tentativas">
+        </div>
+
+        <!-- RECEPÇÃO -->
+        <div>
+            <label for="recepcaoA">Recepção</label><br>
+            <input id="recepcaoA" type="number" placeholder="Acertos">
+            <input id="recepcaoT" type="number" placeholder="Tentativas">
+        </div>
+
+        <!-- LEVANTAMENTO -->
+        <div>
+            <label for="levantamentoA">Levantamento</label><br>
+            <input id="levantamentoA" type="number" placeholder="Acertos">
+            <input id="levantamentoT" type="number" placeholder="Tentativas">
+        </div>
+
+        <!-- DEFESA -->
+        <div>
+            <label for="defesaA">Defesa</label><br>
+            <input id="defesaA" type="number" placeholder="Acertos">
+            <input id="defesaT" type="number" placeholder="Tentativas">
+        </div>
+
+        <!-- SAQUE -->
+        <div>
+            <label for="saqueA">Saque</label><br>
+            <input id="saqueA" type="number" placeholder="Acertos">
+            <input id="saqueT" type="number" placeholder="Tentativas">
+        </div>
+
     </div>
 
-   
-    <div class="kpis" id="kpis"></div>
-
-    <!-- BARRAS -->
-    <div class="barra-container" id="barras">
-        <h2>Desempenho por Fundamento</h2>
-    </div>
-
+    <br>
+    <button onclick="gerarDashboard()">Gerar análise</button>
 </div>
 
-<footer>
-    <div class="footer-container">
-        <p>📞 Contato: (11) 99958-4554</p>
-        <p>✉️ Email: felipeleonegomes@gmail.com</p>
-        <p>© 2026 VoleiNáticos</p>
+        <!-- Área onde aparecem os KPIs -->
+        <div class="kpis" id="kpis"></div>
+
+        <!-- Barras de desempenho -->
+        <div class="barra-container" id="barras">
+            <h2>Desempenho por Fundamento</h2>
+        </div>
+
+        <!-- Gráfico radar -->
+        <div class="barra-container">
+            <h2>Seu Radar de Habilidades</h2>
+            <canvas id="graficoRadar"></canvas>
+        </div>
+
     </div>
-</footer>
+
+    <!-- Rodapé -->
+    <footer>
+        <div class="footer-container">
+            <p>📞 Contato: (11) 99958-4554</p>
+            <p>✉️ Email: felipeleonegomes@gmail.com</p>
+            <p>© 2026 VoleiNáticos</p>
+        </div>
+    </footer>
 
 </body>
+
 </html>
 
 <script>
-let dados = [
-    ["Ataque", 10, 40],
-    ["Bloqueio", 10, 20],
-    ["Saque", 15, 25],
-    ["Recepção", 10, 35],
-    ["Defesa", 18, 30],
-    ["Toque", 25, 30],
-    ["Manchete", 20, 28],
-    ["Levantamento", 30, 32],
-    ["Passe", 22, 26]
-];
 
-function cor(valor){
-    if(valor >= 70){
-        return "verde";
-    } else if(valor >= 50){
-        return "amarelo";
-    } else {
-        return "vermelho";
+    // Função que verifica se o usuário está logado
+    function verificarLogin() {
+
+        // Pega o ID salvo na sessão
+        var idUsuario = sessionStorage.ID_USUARIO;
+
+        // Pega o nav
+        var nav = document.getElementById("navLinks");
+
+        // Se estiver logado
+        if (idUsuario != null) {
+
+            // Mostra botão de sair
+            nav.innerHTML += `
+                <a href="#" onclick="sair()">Sair</a>
+            `;
+
+        } else {
+
+            // Se NÃO estiver logado, mostra login e cadastro
+            nav.innerHTML += `
+                <a href="login.html">Login</a>
+                <a href="cadastro.html">Cadastro</a>
+            `;
+        }
     }
+
+    // Função de logout
+    function sair() {
+
+        // Limpa a sessão
+        sessionStorage.clear();
+
+        // Redireciona pra home
+        window.location = "index.html";
+    }
+
+    // Executa quando a página carregar
+    verificarLogin();
+    
+// Função que define a cor com base na eficiência
+function cor(valor) {
+    if (valor >= 70) return "verde";     // desempenho alto
+    else if (valor >= 50) return "amarelo"; // desempenho médio
+    else return "vermelho";              // desempenho baixo
 }
 
-for(let i = 0; i < dados.length; i++){
+// Função responsável por definir a posição do jogador
+function descobrirPosicao(dados) {
 
-    let nome = dados[i][0];
-    let acertos = dados[i][1];
-    let tentativas = dados[i][2];
+    // Pegando os valores de cada fundamento
+    let ataque = dados.ataque;
+    let recepcao = dados.recepcao;
+    let levantamento = dados.levantamento;
+    let defesa = dados.defesa;
+    let bloqueio = dados.bloqueio;
 
-    let eficiencia = (acertos / tentativas) * 100;
-    let classe = cor(eficiencia);
+    // Regra para Líbero (foco em recepção e defesa)
+    if (recepcao > 75 && defesa > 70 && ataque < 60) {
+        return "Líbero";
+    }
 
-    
-    kpis.innerHTML += `
+    // Regra para Levantador (levantamento alto)
+    if (levantamento > 75) {
+        return "Levantador";
+    }
+
+    // Regra para Central (bloqueio alto)
+    if (bloqueio > 75 && ataque > 60) {
+        return "Central";
+    }
+
+    // Regra para Oposto (ataque muito alto)
+    if (ataque > 80) {
+        return "Oposto";
+    }
+
+    // Regra para Ponteiro (equilibrado)
+    if (ataque > 70 && recepcao > 60) {
+        return "Ponteiro";
+    }
+
+    // Caso não dê para identificar
+    return "Estatísticas insuficientes";
+}
+
+// Função principal que gera toda a dashboard
+function gerarDashboard() {
+
+    // Pegando os elementos da tela onde vamos inserir os resultados
+    let kpis = document.getElementById("kpis");
+    let barras = document.getElementById("barras");
+
+    // Limpando resultados anteriores
+    kpis.innerHTML = "";
+    barras.innerHTML = "<h2>Desempenho por Fundamento</h2>";
+
+    // Criando estrutura com os dados vindos dos inputs
+    let dados = [
+        ["Ataque", ataqueA.value, ataqueT.value],
+        ["Bloqueio", bloqueioA.value, bloqueioT.value],
+        ["Recepção", recepcaoA.value, recepcaoT.value],
+        ["Levantamento", levantamentoA.value, levantamentoT.value],
+        ["Defesa", defesaA.value, defesaT.value],
+        ["Saque", saqueA.value, saqueT.value]
+    ];
+
+    // Objeto que vai armazenar os resultados finais
+    let resumo = {};
+
+    // Loop tradicional (ensinado em aula) para percorrer os dados
+    for (let i = 0; i < dados.length; i++) {
+
+        // Pegando nome, acertos e tentativas
+        let nome = dados[i][0];
+        let acertos = Number(dados[i][1]);
+        let tentativas = Number(dados[i][2]);
+
+        // Validação:
+        // - não pode ser vazio
+        // - tentativas não pode ser zero
+        if (isNaN(acertos) || isNaN(tentativas) || tentativas <= 0) {
+            continue; // pula esse item
+        }
+
+        // Cálculo da eficiência (%)
+        let eficiencia = (acertos / tentativas) * 100;
+
+        // Definindo cor do indicador
+        let classe = cor(eficiencia);
+
+        // Salvando no objeto resumo
+        resumo[nome.toLowerCase()] = eficiencia;
+
+        // Criando card KPI
+        kpis.innerHTML += `
         <div class="kpi ${classe}">
             <h3>${nome}</h3>
             <h1>${eficiencia.toFixed(1)}%</h1>
             <p>${acertos}/${tentativas}</p>
         </div>
-    `;
+        `;
 
-    
-    barras.innerHTML += `
+        // Criando barra visual
+        barras.innerHTML += `
         <div class="barra ${classe}" style="width:${eficiencia}%;">
             ${nome} - ${eficiencia.toFixed(1)}%
         </div>
+        `;
+    }
+
+    // Descobrindo a posição com base no resumo
+    let posicao = descobrirPosicao({
+        ataque: resumo.ataque || 0,
+        recepcao: resumo["recepção"] || 0,
+        levantamento: resumo.levantamento || 0,
+        defesa: resumo.defesa || 0,
+        bloqueio: resumo.bloqueio || 0
+    });
+
+    // Exibindo a posição como KPI adicional
+    kpis.innerHTML += `
+    <div class="kpi" style="background:black;">
+        <h3>Posição ideal</h3>
+        <h1>${posicao}</h1>
+    </div>
     `;
+
+    // Se já existir um gráfico, ele é destruído antes de criar outro
+    if (window.grafico) {
+        window.grafico.destroy();
+    }
+
+    // Arrays para o gráfico
+    let labels = [];
+    let valores = [];
+
+    // Loop tradicional para pegar dados do resumo (sem usar "for in")
+    let chaves = Object.keys(resumo);
+
+    for (let i = 0; i < chaves.length; i++) {
+        labels.push(chaves[i]);              // nome do fundamento
+        valores.push(resumo[chaves[i]]);    // valor da eficiência
+    }
+
+    // Pegando o canvas
+    const ctx = document.getElementById("graficoRadar").getContext("2d");
+
+    // Criando gráfico radar
+    window.grafico = new Chart(ctx, {
+        type: "radar",
+        data: {
+            labels: labels,
+            datasets: [{
+                label: "Desempenho do Jogador",
+                data: valores,
+                backgroundColor: "rgba(166,77,95,0.4)",
+                borderColor: "#a64d5f",
+                pointBackgroundColor: "#fff"
+            }]
+        },
+        options: {
+            scales: {
+                r: {
+                    beginAtZero: true,
+                    max: 100
+                }
+            }
+        }
+    });
 }
 </script>

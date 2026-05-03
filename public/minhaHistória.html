@@ -132,15 +132,13 @@ footer {
 
 <header>
     <h1>VoleiNáticos</h1>
-    <nav>
-        <a href="minhaHistória.html">Carreira<br>De um<br>Voleibolista</a>
-        <a href="index.html">Home</a>
-        <a href="noticias.html">Notícias</a>
-        <a href="forum.html">Fórum</a>
-        <a href="dashboard.html">Dashboard</a>
-        <a href="login.html">Login</a>
-        <a href="cadastro.html">Cadastro</a>
-    </nav>
+   <nav id="navLinks">
+    <a href="minhaHistória.html">Carreira<br>De um<br>Voleibolista</a>
+    <a href="index.html">Home</a>
+    <a href="noticias.html">Notícias</a>
+    <a href="forum.html">Fórum</a>
+    <a href="dashboard.html">Dashboard</a>
+</nav>
 </header>
 
 <div class="main">
@@ -312,3 +310,45 @@ Acredite em você mesmo! 🫵
 
 </body>
 </html>
+
+<script>
+    // Função que verifica se o usuário está logado
+    function verificarLogin() {
+
+        // Pega o ID salvo na sessão
+        var idUsuario = sessionStorage.ID_USUARIO;
+
+        // Pega o nav
+        var nav = document.getElementById("navLinks");
+
+        // Se estiver logado
+        if (idUsuario != null) {
+
+            // Mostra botão de sair
+            nav.innerHTML += `
+                <a href="#" onclick="sair()">Sair</a>
+            `;
+
+        } else {
+
+            // Se NÃO estiver logado, mostra login e cadastro
+            nav.innerHTML += `
+                <a href="login.html">Login</a>
+                <a href="cadastro.html">Cadastro</a>
+            `;
+        }
+    }
+
+    // Função de logout
+    function sair() {
+
+        // Limpa a sessão
+        sessionStorage.clear();
+
+        // Redireciona pra home
+        window.location = "index.html";
+    }
+
+    // Executa quando a página carregar
+    verificarLogin();
+</script>
