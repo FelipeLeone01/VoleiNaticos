@@ -320,127 +320,142 @@ function descobrirPosicao(dados) {
 }
 
 // Função principal que gera toda a dashboard
-function gerarDashboard() {
+function gerarDashboard(){
 
-    // Pegando os elementos da tela onde vamos inserir os resultados
     let kpis = document.getElementById("kpis");
     let barras = document.getElementById("barras");
 
-    // Limpando resultados anteriores
     kpis.innerHTML = "";
     barras.innerHTML = "<h2>Desempenho por Fundamento</h2>";
 
-    // Criando estrutura com os dados vindos dos inputs
     let dados = [
-        ["Ataque", ataqueA.value, ataqueT.value],
-        ["Bloqueio", bloqueioA.value, bloqueioT.value],
-        ["Recepção", recepcaoA.value, recepcaoT.value],
-        ["Levantamento", levantamentoA.value, levantamentoT.value],
-        ["Defesa", defesaA.value, defesaT.value],
-        ["Saque", saqueA.value, saqueT.value]
-    ];
+    ["Ataque", ataqueA.value, ataqueT.value],
+    ["Bloqueio", bloqueioA.value, bloqueioT.value],
+    ["Recepção", recepcaoA.value, recepcaoT.value],
+    ["Levantamento", levantamentoA.value, levantamentoT.value],
+    ["Defesa", defesaA.value, defesaT.value],
+    ["Saque", saqueA.value, saqueT.value]
+];
 
-    // Objeto que vai armazenar os resultados finais
     let resumo = {};
 
-    // Loop tradicional (ensinado em aula) para percorrer os dados
-    for (let i = 0; i < dados.length; i++) {
+    // 🔥 LOOP OBRIGATÓRIO (VOCÊ TINHA APAGADO)
+    for(let i = 0; i < dados.length; i++){
 
-        // Pegando nome, acertos e tentativas
         let nome = dados[i][0];
         let acertos = Number(dados[i][1]);
         let tentativas = Number(dados[i][2]);
 
-        // Validação:
-        // - não pode ser vazio
-        // - tentativas não pode ser zero
-        if (isNaN(acertos) || isNaN(tentativas) || tentativas <= 0) {
-            continue; // pula esse item
+        if(isNaN(acertos) || isNaN(tentativas) || tentativas <= 0){
+            continue;
         }
 
-        // Cálculo da eficiência (%)
         let eficiencia = (acertos / tentativas) * 100;
-
-        // Definindo cor do indicador
         let classe = cor(eficiencia);
 
-        // Salvando no objeto resumo
         resumo[nome.toLowerCase()] = eficiencia;
 
-        // Criando card KPI
+        // KPI
         kpis.innerHTML += `
-        <div class="kpi ${classe}">
-            <h3>${nome}</h3>
-            <h1>${eficiencia.toFixed(1)}%</h1>
-            <p>${acertos}/${tentativas}</p>
-        </div>
+            <div class="kpi ${classe}">
+                <h3>${nome}</h3>
+                <h1>${eficiencia.toFixed(1)}%</h1>
+            </div>
         `;
 
-        // Criando barra visual
+        // barra
         barras.innerHTML += `
-        <div class="barra ${classe}" style="width:${eficiencia}%;">
-            ${nome} - ${eficiencia.toFixed(1)}%
-        </div>
+            <div class="barra ${classe}" style="width:${eficiencia}%;">
+                ${nome} - ${eficiencia.toFixed(1)}%
+            </div>
         `;
     }
 
-    // Descobrindo a posição com base no resumo
+    // 🔥 AGORA SIM (depois do resumo pronto)
     let posicao = descobrirPosicao({
         ataque: resumo.ataque || 0,
-        recepcao: resumo["recepção"] || 0,
-        levantamento: resumo.levantamento || 0,
-        defesa: resumo.defesa || 0,
-        bloqueio: resumo.bloqueio || 0
+        recepcao: resumo["recepção"] || 0
     });
 
-    // Exibindo a posição como KPI adicional
+    // KPI posição
     kpis.innerHTML += `
-    <div class="kpi" style="background:black;">
-        <h3>Posição ideal</h3>
-        <h1>${posicao}</h1>
-    </div>
+        <div class="kpi" style="background:black;">
+            <h3>Posição ideal</h3>
+            <h1>${posicao}</h1>
+        </div>
     `;
 
-    // Se já existir um gráfico, ele é destruído antes de criar outro
-    if (window.grafico) {
-        window.grafico.destroy();
-    }
-
-    // Arrays para o gráfico
-    let labels = [];
-    let valores = [];
-
-    // Loop tradicional para pegar dados do resumo (sem usar "for in")
-    let chaves = Object.keys(resumo);
-
-    for (let i = 0; i < chaves.length; i++) {
-        labels.push(chaves[i]);              // nome do fundamento
-        valores.push(resumo[chaves[i]]);    // valor da eficiência
-    }
-
-    // Pegando o canvas
-    const ctx = document.getElementById("graficoRadar").getContext("2d");
-
-    // Criando gráfico radar
-    window.grafico = new Chart(ctx, {
-        type: "radar",
-        data: {
-            labels: labels,
-            datasets: [{
-                label: "Desempenho do Jogador",
-                data: valores,
-                backgroundColor: "rgba(166,77,95,0.4)",
-                borderColor: "#a64d5f",
-                pointBackgroundColor: "#fff"
-            }]
+    // 🔥 ENVIO PRO BACKEND
+    fetch("/dashboard/salvar", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
         },
-        options: {
-            scales: {
-                r: {
-                    beginAtZero: true,
-                    max: 100
-                }
-            }
+        body: JSON.stringify({
+    idUsuario: sessionStorage.ID_USUARIO,
+
+    ataque: resumo.ataque || 0,
+    bloqueio: resumo.bloqueio || 0,
+    recepcao: resumo["recepção"] || 0,
+    levantamento: resumo.levantamento || 0,
+    defesa: resumo.defesa || 0,
+    saque: resumo.saque || 0,
+
+    posicao: posicao
+})
+    })
+    .then(res => res.json())
+    .then(data => {
+        console.log("Salvo no banco:", data);
+        carregarRanking();
+    });
+
+    // destruir gráfico antigo
+if (window.grafico) {
+    window.grafico.destroy();
+}
+
+let labels = [];
+let valores = [];
+
+let chaves = Object.keys(resumo);
+
+for (let i = 0; i < chaves.length; i++) {
+    labels.push(chaves[i]);
+    valores.push(resumo[chaves[i]]);
+}
+
+const ctx = document.getElementById("graficoRadar").getContext("2d");
+
+window.grafico = new Chart(ctx, {
+    type: "radar",
+    data: {
+        labels: labels,
+        datasets: [{
+            label: "Desempenho",
+            data: valores
+        }]
+    }
+});
+}
+
+function carregarRanking() {
+
+    fetch("/dashboard/ranking/" + sessionStorage.ID_USUARIO)
+    .then(res => res.json())
+    .then(dados => {
+
+        let container = document.getElementById("barras");
+
+        container.innerHTML += `<h2>Seus melhores jogos</h2>`;
+
+        for (let i = 0; i < dados.length; i++) {
+
+            container.innerHTML += `
+                <div class="barra" style="background: black;">
+                    Jogo ${i + 1} - Score: ${dados[i].score.toFixed(1)}
+                </div>
+            `;
         }
     });
 }

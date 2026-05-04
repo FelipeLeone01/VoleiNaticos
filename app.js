@@ -170,6 +170,71 @@ app.post("/dashboard", function(req, res){
     res.json({ posicao });
 });
 
+app.post("/dashboard/salvar", (req, res) => {
+
+    const {
+        idUsuario,
+        ataque,
+        bloqueio,
+        recepcao,
+        levantamento,
+        defesa,
+        saque,
+        posicao
+    } = req.body;
+
+    let score = (ataque + bloqueio + recepcao + levantamento + defesa + saque) / 6;
+
+    let sql = `
+        insert into desempenho
+        (fk_usuario, ataque, bloqueio, recepcao, levantamento, defesa, saque, posicao, score)
+        values (
+            ${idUsuario},
+            ${ataque},
+            ${bloqueio},
+            ${recepcao},
+            ${levantamento},
+            ${defesa},
+            ${saque},
+            '${posicao}',
+            ${score}
+        )
+    `;
+
+    database.executar(sql)
+    .then(() => {
+        res.json({ message: "salvo com sucesso" });
+    })
+    .catch(erro => {
+        console.log("erro ao salvar:", erro);
+        res.status(500).json(erro);
+    });
+
+});
+
+app.get("/dashboard/ranking/:idUsuario", (req, res) => {
+
+    let idUsuario = req.params.idUsuario;
+
+    let sql = `
+        select score
+        from desempenho
+        where fk_usuario = ${idUsuario}
+        order by score desc
+        limit 5
+    `;
+
+    database.executar(sql)
+    .then(resultado => {
+        res.json(resultado);
+    })
+    .catch(erro => {
+        console.log("erro ranking:", erro);
+        res.status(500).json(erro);
+    });
+
+});
+
 var usuarioRouter = require("./src/routes/usuarios"); // Importa rotas de usuários
 
 
