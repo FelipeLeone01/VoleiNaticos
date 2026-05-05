@@ -132,7 +132,7 @@
 
 <body>
 
-    <!-- Header com navegação -->
+  
     <header>
         <h1>VoleiNáticos</h1>
         <nav id="navLinks">
@@ -339,7 +339,7 @@ function gerarDashboard(){
 
     let resumo = {};
 
-    // 🔥 LOOP OBRIGATÓRIO (VOCÊ TINHA APAGADO)
+    // LOOP OBRIGATÓRIO 
     for(let i = 0; i < dados.length; i++){
 
         let nome = dados[i][0];
@@ -371,7 +371,7 @@ function gerarDashboard(){
         `;
     }
 
-    // 🔥 AGORA SIM (depois do resumo pronto)
+    
     let posicao = descobrirPosicao({
         ataque: resumo.ataque || 0,
         recepcao: resumo["recepção"] || 0
@@ -385,7 +385,7 @@ function gerarDashboard(){
         </div>
     `;
 
-    // 🔥 ENVIO PRO BACKEND
+    // ENVIO PRO BACKEND
     fetch("/dashboard/salvar", {
         method: "POST",
         headers: {
@@ -418,14 +418,14 @@ if (window.grafico) {
 let labels = [];
 let valores = [];
 
-let chaves = Object.keys(resumo);
+let chaves = Object.keys(resumo); // perguntar ao JP se é a melhor opção
 
 for (let i = 0; i < chaves.length; i++) {
     labels.push(chaves[i]);
     valores.push(resumo[chaves[i]]);
 }
 
-const ctx = document.getElementById("graficoRadar").getContext("2d");
+const ctx = document.getElementById("graficoRadar").getContext("2d"); // Tudo isso foi importado do Chart.js
 
 window.grafico = new Chart(ctx, {
     type: "radar",

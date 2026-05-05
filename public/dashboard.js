@@ -57,15 +57,13 @@ function gerarDashboard(){
 
         resumo[nome.toLowerCase()] = eficiencia;
 
-        kpis.innerHTML += `
-            <div class="kpi ${classe}">
+        kpis.innerHTML += `<div class="kpi ${classe}">
                 <h3>${nome}</h3>
                 <h1>${eficiencia.toFixed(1)}%</h1>
             </div>
         `;
 
-        barras.innerHTML += `
-            <div class="barra ${classe}" style="width:${eficiencia}%;">
+        barras.innerHTML += `<div class="barra ${classe}" style="width:${eficiencia}%;">
                 ${nome} - ${eficiencia.toFixed(1)}%
             </div>
         `;
