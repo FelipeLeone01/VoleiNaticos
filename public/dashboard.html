@@ -340,22 +340,19 @@ function gerarDashboard(){
     let resumo = {};
 
     // LOOP OBRIGATÓRIO 
-    for(let i = 0; i < dados.length; i++){
+for(let i = 0; i < dados.length; i++){
 
-        let nome = dados[i][0];
-        let acertos = Number(dados[i][1]);
-        let tentativas = Number(dados[i][2]);
+    let nome = dados[i][0];
+    let acertos = Number(dados[i][1]);
+    let tentativas = Number(dados[i][2]);
 
-        if(isNaN(acertos) || isNaN(tentativas) || tentativas <= 0){
-            continue;
-        }
+    if(!isNaN(acertos) && !isNaN(tentativas) && tentativas > 0){
 
         let eficiencia = (acertos / tentativas) * 100;
         let classe = cor(eficiencia);
 
         resumo[nome.toLowerCase()] = eficiencia;
 
-        // KPI
         kpis.innerHTML += `
             <div class="kpi ${classe}">
                 <h3>${nome}</h3>
@@ -363,13 +360,13 @@ function gerarDashboard(){
             </div>
         `;
 
-        // barra
         barras.innerHTML += `
             <div class="barra ${classe}" style="width:${eficiencia}%;">
                 ${nome} - ${eficiencia.toFixed(1)}%
             </div>
         `;
     }
+}
 
     
     let posicao = descobrirPosicao({
@@ -415,15 +412,23 @@ if (window.grafico) {
     window.grafico.destroy();
 }
 
-let labels = [];
-let valores = [];
+let labels = [
+    "Ataque",
+    "Bloqueio",
+    "Recepção",
+    "Levantamento",
+    "Defesa",
+    "Saque"
+];
 
-let chaves = Object.keys(resumo); // perguntar ao JP se é a melhor opção
-
-for (let i = 0; i < chaves.length; i++) {
-    labels.push(chaves[i]);
-    valores.push(resumo[chaves[i]]);
-}
+let valores = [
+    resumo.ataque || 0,
+    resumo.bloqueio || 0,
+    resumo["recepção"] || 0,
+    resumo.levantamento || 0,
+    resumo.defesa || 0,
+    resumo.saque || 0
+];
 
 const ctx = document.getElementById("graficoRadar").getContext("2d"); // Tudo isso foi importado do Chart.js
 

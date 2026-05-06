@@ -50,9 +50,8 @@ function gerarDashboard(){
         let acertos = Number(dados[i][1]);
         let tentativas = Number(dados[i][2]);
 
-        if(tentativas == 0) continue;
-
-        let eficiencia = (acertos / tentativas) * 100;
+        if(tentativas != 0) {
+ let eficiencia = (acertos / tentativas) * 100;
         let classe = cor(eficiencia);
 
         resumo[nome.toLowerCase()] = eficiencia;
@@ -83,6 +82,9 @@ function gerarDashboard(){
     console.log("Backend:", data);
 });
     }
+        }
+
+       
 
     // posição do jogador
     let posicao = descobrirPosicao({

@@ -64,15 +64,15 @@ app.get("/posts", async function (req, res) { // Rota para buscar todos os posts
             SELECT * FROM post ORDER BY id_post DESC;
         `);
 
-        for (let post of posts) {
-            const comentarios = await database.executar(`
-                SELECT id_comentario, conteudo, fk_usuario FROM comentario 
-                WHERE fk_post = ${post.id_post};
-            `);// Busca todos os posts ordenados do mais recente
+       for (let i = 0; i < posts.length; i++) {
 
+    const comentarios = await database.executar(`
+        SELECT id_comentario, conteudo, fk_usuario FROM comentario 
+        WHERE fk_post = ${posts[i].id_post};
+    `);
 
-           post.comentarios = comentarios; // Envia objeto completo (id, texto e dono)
-        }
+    posts[i].comentarios = comentarios;
+}
 
         res.json(posts); // Retorna lista de posts com comentários
 

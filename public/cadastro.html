@@ -88,7 +88,6 @@ body {
 
 .card_erro {
     display: none; /* Pra deixar escondido */
-    background-color: green;
     color: white;
     padding: 10px;
     margin-bottom: 10px; /* Espaço abaixo */
@@ -301,12 +300,14 @@ footer {
     // VALIDAÇÕES BÁSICAS
     if (nomeVar == "" || emailVar == "" || senhaVar == "" || confirmacaoSenhaVar == "" || cpfVar == "") {
         cardErro.style.display = "block";
+         cardErro.style.backgroundColor = "red";
         mensagem_erro.innerHTML = "(Preencha todos os campos)";
         return;
     }
 
     if (!(nomeVar.length > 1)) {
         cardErro.style.display = "block";
+         cardErro.style.backgroundColor = "red";
         mensagem_erro.innerHTML = "(Nome inválido)";
         return;
     }
@@ -322,24 +323,28 @@ footer {
 
     if (!(temArroba && temPonto)) {
         cardErro.style.display = "block";
+         cardErro.style.backgroundColor = "red";
         mensagem_erro.innerHTML = "(Email inválido)";
         return;
     }
 
     if (!(senhaVar.length > 6)) {
         cardErro.style.display = "block";
+         cardErro.style.backgroundColor = "red";
         mensagem_erro.innerHTML = "(Senha inválida)";
         return;
     }
 
     if (senhaVar != confirmacaoSenhaVar) {
         cardErro.style.display = "block";
+         cardErro.style.backgroundColor = "red";
         mensagem_erro.innerHTML = "(Senhas diferentes)";
         return;
     }
 
     if (!(cpfVar.length == 11)) {
         cardErro.style.display = "block";
+         cardErro.style.backgroundColor = "red";
         mensagem_erro.innerHTML = "(CPF inválido)";
         return;
     }
@@ -347,6 +352,7 @@ footer {
     // VALIDAÇÕES AVANÇADAS
     if (!validarDominio(emailVar)) {
         cardErro.style.display = "block";
+         cardErro.style.backgroundColor = "red";
         mensagem_erro.innerHTML = "(Use gmail, hotmail ou outlook)";
         return;
     }
@@ -355,12 +361,14 @@ footer {
 
     if (forcaSenha < 10) {
         cardErro.style.display = "block";
+         cardErro.style.backgroundColor = "red";
         mensagem_erro.innerHTML = "(Senha fraca)";
         return;
     }
 
     if (!validarCPF(cpfVar)) {
         cardErro.style.display = "block";
+         cardErro.style.backgroundColor = "red";
         mensagem_erro.innerHTML = "(CPF inválido)";
         return;
     }
@@ -381,6 +389,7 @@ footer {
     .then(function (resposta) {
         if (resposta.ok) {
             cardErro.style.display = "block";
+             cardErro.style.backgroundColor = "green";
             mensagem_erro.innerHTML = "Cadastro realizado!";
 
             setTimeout(() => {

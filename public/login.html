@@ -285,6 +285,7 @@ nav a {
 
         if (emailVar == "" || senhaVar == "") { // Verifica campos vazios
             cardErro.style.display = "block"
+             cardErro.style.backgroundColor = "red";
             mensagem_erro.innerHTML = "(Preencha todos os campos)";
             finalizarAguardar(); // Esconde loading
             return false; // Interrompe execução
@@ -305,6 +306,7 @@ nav a {
             var tempo = totalTentativas * 2; // operação matemática
 
             cardErro.style.display = "block";
+             cardErro.style.backgroundColor = "red";
             mensagem_erro.innerHTML = "(Muitas tentativas! Aguarde " + tempo + " segundos)";
 
             setTimeout(() => {
