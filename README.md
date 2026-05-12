@@ -1,6 +1,6 @@
 # 🏐 Voleináticos
 
-Plataforma web desenvolvida com o objetivo de centralizar conteúdos, interações e análises relacionadas ao voleibol. O projeto busca oferecer uma experiência simples, intuitiva e funcional para usuários interessados no esporte, permitindo visualização de dados, participação em discussões e acompanhamento de desempenho.
+Plataforma web desenvolvida com o objetivo de centralizar conteúdos, interações e análises relacionadas ao voleibol. O projeto busca oferecer uma experiência simples, intuitiva e funcional para usuários interessados no esporte, permitindo visualização de dados, participação em discussões e acompanhamento de desempenho por jogo que foi registrado.
 
 ---
 
@@ -26,7 +26,7 @@ O projeto foi desenvolvido como parte de um trabalho individual, com o objetivo 
   Engajamento com os conteúdos
 
 * **Dashboard de desempenho**
-  Exibição de fundamentos do voleibol com dados e gráficos
+  Exibição de fundamentos do voleibol com dados registrados pelo usuário e gráficos gerados a partir da análise
 
 *  **Cadastro de usuários**
   Criação e gerenciamento de contas
@@ -62,6 +62,7 @@ O projeto foi desenvolvido como parte de um trabalho individual, com o objetivo 
 
 Vídeo da Página HOME - https://www.youtube.com/watch?v=QlmtvGgua9Y
 Imagem Favicon - https://www.pngarts.com/explore/41849
+Gráfico Radar de Habilidades (Dashboard) - Chart.js
 
 ---
 
