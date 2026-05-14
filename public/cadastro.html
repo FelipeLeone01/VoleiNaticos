@@ -154,7 +154,7 @@ footer {
 
                 <div class="campo">
                     <span>Email:</span>
-                    <input id="email_input" type="text"  placeholder="meuemail@provedor.com">
+                    <input id="email_input" type="email"  placeholder="meuemail@provedor.com">
                 </div>
 
                 <div class="campo">
@@ -169,7 +169,7 @@ footer {
 
                 <div class="campo">
                     <span>CPF:</span>
-                    <input id="cpf_input" type="text" placeholder="***********">
+                    <input id="cpf_input" type="text" maxlength="11" placeholder="***********">
                 </div>
 
                <button class="botao" onclick="cadastrar()" id="btnCadastro">Cadastrar</button>
@@ -395,7 +395,13 @@ footer {
             setTimeout(() => {
                 window.location = "login.html";
             }, 2000);
-        }
+        } else {
+
+        cardErro.style.display = "block";
+        cardErro.style.backgroundColor = "red";
+        mensagem_erro.innerHTML = "Email já cadastrado";
+
+    }
     })
     .catch(function (erro) {
         console.log(erro);

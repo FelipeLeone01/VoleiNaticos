@@ -157,43 +157,43 @@
         <!-- ATAQUE -->
         <div>
             <label for="ataqueA">Ataque</label><br>
-            <input id="ataqueA" type="number" placeholder="Acertos">
-            <input id="ataqueT" type="number" placeholder="Tentativas">
+            <input id="ataqueA" type="number" min="0" placeholder="Acertos">
+            <input id="ataqueT" type="number" min="0" placeholder="Tentativas">
         </div>
 
         <!-- BLOQUEIO -->
         <div>
             <label for="bloqueioA">Bloqueio</label><br>
-            <input id="bloqueioA" type="number" placeholder="Acertos">
-            <input id="bloqueioT" type="number" placeholder="Tentativas">
+            <input id="bloqueioA" type="number" min="0" placeholder="Acertos">
+            <input id="bloqueioT" type="number" min="0" placeholder="Tentativas">
         </div>
 
         <!-- RECEPÇÃO -->
         <div>
             <label for="recepcaoA">Recepção</label><br>
-            <input id="recepcaoA" type="number" placeholder="Acertos">
-            <input id="recepcaoT" type="number" placeholder="Tentativas">
+            <input id="recepcaoA" type="number" min="0" placeholder="Acertos">
+            <input id="recepcaoT" type="number" min="0" placeholder="Tentativas">
         </div>
 
         <!-- LEVANTAMENTO -->
         <div>
             <label for="levantamentoA">Levantamento</label><br>
-            <input id="levantamentoA" type="number" placeholder="Acertos">
-            <input id="levantamentoT" type="number" placeholder="Tentativas">
+            <input id="levantamentoA" type="number"  min="0" placeholder="Acertos">
+            <input id="levantamentoT" type="number" min="0"  placeholder="Tentativas">
         </div>
 
         <!-- DEFESA -->
         <div>
             <label for="defesaA">Defesa</label><br>
-            <input id="defesaA" type="number" placeholder="Acertos">
-            <input id="defesaT" type="number" placeholder="Tentativas">
+            <input id="defesaA" type="number" min="0" placeholder="Acertos">
+            <input id="defesaT" type="number" min="0" placeholder="Tentativas">
         </div>
 
         <!-- SAQUE -->
         <div>
             <label for="saqueA">Saque</label><br>
-            <input id="saqueA" type="number" placeholder="Acertos">
-            <input id="saqueT" type="number" placeholder="Tentativas">
+            <input id="saqueA" type="number" min="0" placeholder="Acertos">
+            <input id="saqueT" type="number" min="0" placeholder="Tentativas">
         </div>
 
     </div>
@@ -321,7 +321,10 @@ function descobrirPosicao(dados) {
 
 // Função principal que gera toda a dashboard
 function gerarDashboard(){
-
+if (sessionStorage.ID_USUARIO == null) {
+    alert("Faça login para salvar desempenho");
+    return;
+}
     let kpis = document.getElementById("kpis");
     let barras = document.getElementById("barras");
 
@@ -369,10 +372,13 @@ for(let i = 0; i < dados.length; i++){
 }
 
     
-    let posicao = descobrirPosicao({
-        ataque: resumo.ataque || 0,
-        recepcao: resumo["recepção"] || 0
-    });
+   let posicao = descobrirPosicao({
+    ataque: resumo.ataque || 0,
+    bloqueio: resumo.bloqueio || 0,
+    recepcao: resumo.recepcao || 0,
+    levantamento: resumo.levantamento || 0,
+    defesa: resumo.defesa || 0
+});
 
     // KPI posição
     kpis.innerHTML += `
@@ -381,7 +387,14 @@ for(let i = 0; i < dados.length; i++){
             <h1>${posicao}</h1>
         </div>
     `;
-
+let scoreFinal = (
+    (resumo.ataque || 0) +
+    (resumo.bloqueio || 0) +
+    (resumo["recepção"] || 0) +
+    (resumo.levantamento || 0) +
+    (resumo.defesa || 0) +
+    (resumo.saque || 0)
+) / 6;
     // ENVIO PRO BACKEND
     fetch("/dashboard/salvar", {
         method: "POST",
@@ -393,12 +406,13 @@ for(let i = 0; i < dados.length; i++){
 
     ataque: resumo.ataque || 0,
     bloqueio: resumo.bloqueio || 0,
-    recepcao: resumo["recepção"] || 0,
+    recepcao: resumo["recepcao"] || 0,
     levantamento: resumo.levantamento || 0,
     defesa: resumo.defesa || 0,
     saque: resumo.saque || 0,
 
-    posicao: posicao
+    posicao: posicao,
+    score: scoreFinal
 })
     })
     .then(res => res.json())

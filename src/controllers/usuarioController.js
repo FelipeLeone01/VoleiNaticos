@@ -22,8 +22,8 @@ function autenticar(req, res) {
                          res.json({
                                         id_usuario: resultadoAutenticar[0].id_usuario,
                                         email: resultadoAutenticar[0].email,
-                                        nome: resultadoAutenticar[0].nome,
-                                        senha: resultadoAutenticar[0].senha,
+                                        nome: resultadoAutenticar[0].nome
+                                        
                                        
                                     });
                     } else if (resultadoAutenticar.length == 0) {
@@ -36,7 +36,14 @@ function autenticar(req, res) {
                 function (erro) {
                     console.log(erro);
                     console.log("\nHouve um erro ao realizar o login! Erro: ", erro.sqlMessage);
-                    res.status(500).json(erro.sqlMessage);
+                    if (erro.code == "ER_DUP_ENTRY") {
+
+    res.status(400).send("Email ou CPF já cadastrado");
+
+} else {
+
+    res.status(500).json(erro.sqlMessage);
+}
                 }
             );
     }

@@ -26,8 +26,8 @@ app.post("/curtir", function (req, res) { // Rota para curtir ou descurtir um po
     const { idPost, idUsuario } = req.body; // Recebe dados da requisição
 
     const verificar = `
-        SELECT * FROM curtida 
-        WHERE fk_usuario = ${idUsuario} AND fk_post = ${idPost};
+        SELECT * FROM curtidas_post
+        WHERE fkUsuario = ${idUsuario} AND fkPost = ${idPost};
     `; // Verifica se o usuário já curtiu o post
 
     database.executar(verificar).then(resultado => {
@@ -35,8 +35,8 @@ app.post("/curtir", function (req, res) { // Rota para curtir ou descurtir um po
         if (resultado.length > 0) { // Se já existe curtida
 
             const remover = `
-                DELETE FROM curtida 
-                WHERE fk_usuario = ${idUsuario} AND fk_post = ${idPost};
+                DELETE FROM curtidas_post 
+                WHERE fkUsuario = ${idUsuario} AND fkPost = ${idPost};
             `; // Remove curtida
 
             database.executar(remover).then(() => {
@@ -46,7 +46,7 @@ app.post("/curtir", function (req, res) { // Rota para curtir ou descurtir um po
         } else {
 
             const inserir = `
-                INSERT INTO curtida (fk_usuario, fk_post)
+                INSERT INTO curtidas_post (fkUsuario, fkPost)
                 VALUES (${idUsuario}, ${idPost});
             `; //Inserir curtida
 
@@ -61,7 +61,7 @@ app.post("/curtir", function (req, res) { // Rota para curtir ou descurtir um po
 app.get("/posts", async function (req, res) { // Rota para buscar todos os posts
     try {
         const posts = await database.executar(`
-            SELECT * FROM post ORDER BY id_post DESC;
+            select * from vw_forum ORDER BY id_post DESC;
         `);
 
        for (let i = 0; i < posts.length; i++) {
@@ -111,8 +111,8 @@ app.get("/likes/:idPost", function (req, res) { // Rota para contar likes de um 
 
     const query = `
         SELECT COUNT(*) as total 
-        FROM curtida 
-        WHERE fk_post = ${idPost};
+        FROM curtidas_post 
+        WHERE fkPost = ${idPost};
     `; // Contar curtidas
 
     database.executar(query).then(resultado => {
@@ -120,20 +120,22 @@ app.get("/likes/:idPost", function (req, res) { // Rota para contar likes de um 
     });
 });
 
-app.post("/comentar", function (req, res) { // Rota para comentar em um post
-    const { conteudo, idUsuario, idPost } = req.body; // Recebe dados do corpo
-const conteudoSafe = conteudo.replace(/'/g, "''"); // Trata aspas no comentário
+app.post("/comentar", function (req, res) {
+
+    const { conteudo, idUsuario, idPost } = req.body;
+
+    const conteudoSafe = conteudo.replace(/'/g, "''");
 
     const query = `
         INSERT INTO comentario (conteudo, fk_usuario, fk_post)
-       VALUES ('${conteudoSafe}', ${idUsuario}, ${idPost});
-    `; // Inserir comentário
+        VALUES ('${conteudoSafe}', ${idUsuario}, ${idPost});
+    `;
 
     database.executar(query)
-        .then(() => res.sendStatus(200)) // Retorna sucesso
+        .then(() => res.sendStatus(200))
         .catch(erro => {
             console.log(erro);
-            res.status(500).send("Erro ao comentar"); // Retorna erro
+            res.status(500).send("Erro ao comentar");
         });
 });
 

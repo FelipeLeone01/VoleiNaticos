@@ -217,6 +217,7 @@ footer {
     </style>
 
 </head>
+<body>
 <header>
     <h1>VoleiNáticos</h1>
     <nav>
@@ -340,7 +341,7 @@ footer {
         <p>© 2026 VoleiNáticos</p>
     </div>
 </footer>
-
+</body>
 </html>
 
 <script>
@@ -370,6 +371,12 @@ footer {
             `;
         }
     }
+    if (sessionStorage.ID_USUARIO) {
+    document.getElementById("botoesCTA").innerHTML = `
+        <a href="dashboard.html" class="btn">Ver Dashboard</a>
+        <a href="forum.html" class="btn-outline">Ir para o Fórum</a>
+    `;
+}
 
     // Função de logout
     function sair() {

@@ -159,7 +159,7 @@
                 <!-- ESQUERDA -->
                 <div class="criar-post">
                     <h2>🏐 Fórum VoleiNáticos</h2>
-                    <input id="input_titulo" placeholder="Título do post">
+                    <input id="input_titulo" maxlength="150" placeholder="Título do post">
                     <textarea id="input_post" placeholder="Compartilhe o seu pensamento..."></textarea>
                     <button onclick="publicar()">Publicar</button>
                 </div>
@@ -252,24 +252,37 @@
             }
 
 
-            function curtir(idPost) {
+           function curtir(idPost) {
 
-                const idUsuario = sessionStorage.ID_USUARIO;
+    const idUsuario = sessionStorage.ID_USUARIO;
 
-                fetch("/curtir", { // Envia curtida ao servidor
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        idPost: idPost,
-                        idUsuario: idUsuario
-                    })
-                })
-                    .then(() => {
-                        carregarPosts(); // Atualiza feed
-                    });
-            }
+    fetch("/curtir", {
+
+        method: "POST",
+
+        headers: {
+            "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify({
+            idPost: idPost,
+            idUsuario: idUsuario
+        })
+    })
+
+    .then(res => {
+
+        if(!res.ok){
+            throw new Error("Você já curtiu esse post");
+        }
+
+        carregarPosts();
+    })
+
+    .catch(err => {
+        console.log(err);
+    });
+}
             function buscarLikes(idPost) {
                 return fetch(`/likes/${idPost}`) // Busca quantidade de likes
                     .then(res => res.json())
@@ -318,27 +331,33 @@
                         console.error("ERRO AO CARREGAR POSTS:", err);
                     });
             }
+function excluirComentario(idComentario) {
 
-            function excluirComentario(idComentario) {
-    const idUsuario = sessionStorage.ID_USUARIO; // Pega ID do usuário logado
+    const idUsuario = sessionStorage.ID_USUARIO;
 
-    fetch("/excluirComentario", { // Envia requisição para deletar
+    fetch("/excluirComentario", {
+
         method: "POST",
+
         headers: {
             "Content-Type": "application/json"
         },
+
         body: JSON.stringify({
             idComentario: idComentario,
             idUsuario: idUsuario
         })
     })
+
     .then(() => {
-        carregarPosts(); // Atualiza feed após excluir
+        carregarPosts();
     })
+
     .catch(err => {
-        console.error("Erro ao excluir:", err);
+        console.log(err);
     });
 }
+
 
 
             async function atualizarPosts() {
@@ -354,7 +373,7 @@
             <div class="post">
 
                 <div style="font-size: 14px; color: gray;">
-                    ${sessionStorage.NOME_USUARIO || "Usuário"} <!-- Nome do usuário -->
+                    ${post.autor} <!-- Nome do usuário -->
                 </div>
 
                 <div style="font-weight: bold; font-size: 18px;">
